@@ -9,17 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bootstrap": "^5.3.6",
     "classnames": "^2.5.1",
     "next": "^15.3.3",
     "next-auth": "^4.24.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
     "sass": "^1.89.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.5",
+    "tailwindcss": "^4.1.10",
     "typescript": "^5.0.0"
   }
 }

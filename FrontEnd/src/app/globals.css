@@ -1,6 +1,19 @@
-/* Global styles */ 
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IntegralCF';
+  src: url('/font/FONTSPRINGDEMO-IntegralCFRegular.woff') format('woff');
+}
+
+/* Global styles */
 
 body {
+  font-family: 'Satoshi', sans-serif;
   margin: 0;
 }
 
@@ -70,4 +83,4 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-} 
+}
