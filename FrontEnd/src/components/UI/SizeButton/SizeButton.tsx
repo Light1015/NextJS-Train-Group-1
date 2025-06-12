@@ -1,19 +1,23 @@
-"use client"; // nếu bạn dùng Next.js App Router
+"use client";
 
 import React, { useState } from "react";
+import styles from "./SizeButton.module.scss";
 
-function SizeButton({ sizes }: { sizes: string[] }) {
+interface SizeButtonProps {
+    sizes: string[];
+}
+
+function SizeButton({ sizes }: SizeButtonProps) {
     const [currentSize, setCurrentSize] = useState("Large");
 
     return (
-        <div className="d-flex flex-wrap gap-2">
-            {sizes.map((size, index) => (
+        <div className={styles.wrapper}>
+            {sizes.map((size) => (
                 <button
-                    key={index}
+                    key={size}
                     type="button"
                     onClick={() => setCurrentSize(size)}
-                    className={`btn btn-sm rounded-pill ${size === currentSize ? "btn-dark text-white" : "btn-light text-muted"
-                        }`}
+                    className={`${styles.sizeBtn} ${currentSize === size ? styles.active : styles.inactive}`}
                 >
                     {size}
                 </button>

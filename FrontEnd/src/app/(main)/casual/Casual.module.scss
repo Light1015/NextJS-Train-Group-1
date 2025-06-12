@@ -1,9 +1,23 @@
+@font-face {
+    font-family: 'Satoshi';
+    src: url('/font/Satoshi-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 .container {
     position: relative;
-    margin: 0 auto;
-    padding: 0 1.25rem;
+    margin: 0 -50px;
     display: flex;
-    gap: 2.5rem;
+    gap: 40px;
+}
+
+.sidebarWrapper {
+    width: 295px;
+    height: 298px;
+    padding: 20px 24px;
+    gap: 24px;
 }
 
 .mainContent {
@@ -11,10 +25,58 @@
 }
 
 .header {
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+
+    .title {
+        font-family: "Satoshi", sans-serif;
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 100%;
+        letter-spacing: 0;
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .filterText {
+            font-family: "Satoshi", sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 100%;
+            letter-spacing: 0;
+        }
+
+        .sort {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            span {
+                font-family: "Satoshi", sans-serif;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 100%;
+                letter-spacing: 0;
+            }
+
+            strong {
+                font-family: "Satoshi", sans-serif;
+                font-size: 16px;
+                line-height: 100%;
+                letter-spacing: 0;
+            }
+
+            img {
+                display: inline-block;
+            }
+        }
+    }
 }
 
 .title {
@@ -22,22 +84,6 @@
     font-weight: 600;
 }
 
-.filterButton {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    background-color: #f3f4f6;
-    color: #9ca3af;
-    padding: 0.5rem 0.75rem;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.filterButton:hover {
-    background-color: #000;
-    color: #fff;
-}
 
 .grid {
     display: grid;
@@ -47,26 +93,95 @@
 }
 
 .paginationWrapper {
+    width: 100%;
     margin-top: 2.5rem;
     padding-top: 1.25rem;
     border-top: 1px solid #e5e7eb;
-    position: relative;
-    width: 100%;
-    min-height: 50px;
+
+    display: flex;
+    justify-content: center; // Canh giữa pagination
 }
 
 .pagination {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    position: relative;
-}
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 100%;
+    width: 100%;
 
-.pageNumbers {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
+    >div {
+        flex: 1; // Chia đều 3 cột
+    }
+
+    // Nút trái/phải
+    .navButton {
+        width: 110px;
+        height: 36px;
+        border-radius: 8px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #FFFFFF;
+        border: 1px solid #0000001A;
+        gap: 6px;
+    }
+
+    .navButton:hover {
+        background-color: #0000000F;
+        border: none;
+        color: #000;
+    }
+
+    .left {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .right {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    // Page numbers ở giữa
+    .pageNumbers {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        .pageButton {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .active {
+            background-color: #0000000F;
+            border: none;
+            color: #000;
+        }
+
+        .inactive {
+            border: 1px solid #dee2e6;
+            background-color: #fff;
+            color: #000;
+        }
+
+        .dots {
+            color: #6c757d;
+            margin: 0 8px;
+        }
+    }
 }
 
 .arrowLeft,
@@ -91,11 +206,4 @@
     .grid {
         grid-template-columns: repeat(3, 1fr);
     }
-}
-
-.pagination {
-    width: 100%;
-    margin-top: 2.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid #e5e7eb;
 }

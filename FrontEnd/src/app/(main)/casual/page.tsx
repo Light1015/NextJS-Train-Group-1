@@ -11,7 +11,7 @@ import styles from "./Casual.module.scss";
 export default function Casual() {
     const [showSideBar, setshowSideBar] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 6;
+    const productsPerPage = 9;
 
     // Tính các chỉ số phân trang
     const indexOfLastProduct = currentPage * productsPerPage;
@@ -26,20 +26,26 @@ export default function Casual() {
 
     return (
         <div className={styles.container}>
-            <SidebarFilter
-                setshowSideBar={setshowSideBar}
-                showSideBar={showSideBar}
-            />
+            <div className={styles.sidebarWrapper}>
+                <SidebarFilter
+                    setshowSideBar={setshowSideBar}
+                    showSideBar={showSideBar}
+                />
+            </div>
             <div className={styles.mainContent}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>T-shirts</h1>
-                    <button
-                        onClick={() => setshowSideBar(true)}
-                        className={styles.filterButton}
-                    >
-                        <FaSlidersH /> filter
-                    </button>
+                    <h1 className={styles.title}>Casual</h1>
+
+                    <div className={styles.actions}>
+                        <p className={styles.filterText}>Showing 1–10 of 100 Products</p>
+                        <div className={styles.sort}>
+                            <span>Sort by:</span>
+                            <strong>Most Popular</strong>
+                            <Image src="/images/dropdown.svg" alt="Sort by" width={16} height={16} />
+                        </div>
+                    </div>
                 </div>
+
 
                 <div className={styles.grid}>
                     {currentProducts.map((product) => (
@@ -60,59 +66,61 @@ export default function Casual() {
                     ))}
                 </div>
 
-                <div className={styles.pagination}>
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        className="btn btn-sm me-2"
-                        disabled={currentPage === 1}
-                    >
-                        <Image src="/images/arrow-left.svg" alt="Previous" width={20} height={20} className="me-1" />
-                        Previous
-                    </button>
+                <div className={styles.paginationWrapper}>
+                    <div className={styles.pagination}>
+                        {/* Left */}
+                        <div className={styles.left}>
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                className={`btn btn-sm ${styles.navButton}`}
+                                disabled={currentPage === 1}
+                            >
+                                <Image src="/images/arrow-left.svg" alt="Previous" width={20} height={20} />
+                                Previous
+                            </button>
+                        </div>
 
-                    {Array.from({ length: totalPages }, (_, i) => i + 1)
-                        .filter((page) => {
-                            // Show first, last, current, +/- 1 pages
-                            return (
-                                page === 1 ||
-                                page === totalPages ||
-                                Math.abs(page - currentPage) <= 1
-                            );
-                        })
-                        .reduce((acc: (number | "...")[], page, idx, arr) => {
-                            // Add "..." between non-adjacent numbers
-                            if (idx > 0 && page - (arr[idx - 1] as number) > 1) {
-                                acc.push("...");
-                            }
-                            acc.push(page);
-                            return acc;
-                        }, [])
-                        .map((item, index) =>
-                            item === "..." ? (
-                                <span key={index} className="mx-1 text-muted">
-                                    ...
-                                </span>
-                            ) : (
-                                <button
-                                    key={item}
-                                    className={`btn btn-sm me-2 ${currentPage === item ? "btn-dark" : "btn-outline-secondary"
-                                        }`}
-                                    onClick={() => handlePageChange(item as number)}
-                                >
-                                    {item}
-                                </button>
-                            )
-                        )}
+                        {/* Page Numbers */}
+                        <div className={styles.pageNumbers}>
+                            {Array.from({ length: totalPages }, (_, i) => i + 1)
+                                .filter((page) => page === 1 || page === totalPages || Math.abs(page - currentPage) <= 1)
+                                .reduce((acc: (number | "...")[], page, idx, arr) => {
+                                    if (idx > 0 && page - (arr[idx - 1] as number) > 1) {
+                                        acc.push("...");
+                                    }
+                                    acc.push(page);
+                                    return acc;
+                                }, [])
+                                .map((item, index) =>
+                                    item === "..." ? (
+                                        <span key={index} className={styles.dots}>...</span>
+                                    ) : (
+                                        <button
+                                            key={item}
+                                            className={`${styles.pageButton} ${currentPage === item ? styles.active : styles.inactive}`}
+                                            onClick={() => handlePageChange(item as number)}
+                                        >
+                                            {item}
+                                        </button>
+                                    )
+                                )}
+                        </div>
 
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        className="btn btn-sm"
-                        disabled={currentPage === totalPages}
-                    >
-                        Next
-                        <Image src="/images/arrow-right.svg" alt="Next" width={20} height={20} className="ms-1" />
-                    </button>
+                        {/* Right */}
+                        <div className={styles.right}>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                className={`btn btn-sm ${styles.navButton}`}
+                                disabled={currentPage === totalPages}
+                            >
+                                Next
+                                <Image src="/images/arrow-right.svg" alt="Next" width={20} height={20} />
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
         </div>
     );

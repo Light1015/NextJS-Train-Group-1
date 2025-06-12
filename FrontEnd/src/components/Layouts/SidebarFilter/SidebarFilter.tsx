@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { BsChevronDown } from "react-icons/bs";
 
 import SizeButton from "@/components/UI/SizeButton/SizeButton";
 import ColorsList from "@/components/UI/ColorsList/ColorsList";
+
+import styles from "./SidebarFilter.module.scss";
 
 interface SidebarFilterProps {
     showSideBar: boolean;
@@ -13,118 +15,155 @@ interface SidebarFilterProps {
 }
 
 const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
-    const [price, setPrice] = useState([50, 1000]);
+    const [price, setPrice] = useState({ min: 0, max: 250 });
+    const [trackStyle, setTrackStyle] = useState("");
+
+    const rangeMin = 0;
+    const rangeMax = 250;
+
+    const getPercent = (value: number) => Math.round(((value - rangeMin) / (rangeMax - rangeMin)) * 100);
+
+    useEffect(() => {
+        const minPercent = getPercent(price.min);
+        const maxPercent = getPercent(price.max);
+
+        const gradient = `linear-gradient(
+            to right,
+            #dee2e6 ${minPercent}%,
+            #212529 ${minPercent}%,
+            #212529 ${maxPercent}%,
+            #dee2e6 ${maxPercent}%
+        )`;
+        setTrackStyle(gradient);
+    }, [price]);
+
+    const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        if (value >= price.max) return;
+        setPrice(prev => ({ ...prev, min: value }));
+    };
+
+    const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        if (value <= price.min) return;
+        setPrice(prev => ({ ...prev, max: value }));
+    };
+
     const [active, setActive] = useState("color");
 
-    const colors = ["green", "red", "yellow", "orange", "pink", "blue", "black", "white"];
+    const colors = ["green", "red", "yellow", "orange", "cyan", "blue", "purple", "pink", "white", "black"];
     const sizes = ["XX-Small", "X-Small", "Small", "Medium", "Large", "X-Large", "XX-Large", "3X-Large", "4X-Large"];
 
     return (
         <div
-            className={`position-fixed top-0 start-0 p-4 bg-white border rounded shadow z-50 ${showSideBar ? "" : "d-none d-md-block"
-                }`}
-            style={{ width: "100%", maxWidth: "260px", top: "4rem" }}
+            className={`${styles.sidebarFilter} ${!showSideBar ? styles.hidden : ""}`}
         >
             {/* Header */}
-            <div className="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+            <div className={styles.header}>
                 <h5 className="mb-0">Filters</h5>
-                <div
-                    className="d-md-none"
-                    style={{ width: "16px", height: "16px", cursor: "pointer" }}
-                    onClick={() => setshowSideBar(false)}
-                >
-                    <Image src="/images/cross.svg" alt="close sidebar" width={16} height={16} />
-
+                <div className={`${styles.close} d-md-none`} onClick={() => setshowSideBar(false)}>
+                    <Image src="/images/filter.svg" alt="close sidebar" width={24} height={24} />
                 </div>
             </div>
 
             {/* Categories */}
-            <div className="border-bottom pb-3 mb-3">
+            <div className={styles.section}>
                 {["T-shirts", "Shorts", "Shirts", "Hoodie", "Jeans"].map((item) => (
-                    <div
-                        key={item}
-                        className="text-secondary p-2 rounded"
-                        style={{ cursor: "pointer" }}
-                        onMouseOver={(e) => (e.currentTarget.style.background = "#000")}
-                        onMouseOut={(e) => (e.currentTarget.style.background = "")}
-                    >
-                        {item}
-                    </div>
+                    <div key={item} className={styles.item}>{item} <Image src="/images/right.svg" alt="close sidebar" width={16} height={16} /></div>
                 ))}
             </div>
 
             {/* Price Filter */}
-            <div className="border-bottom pb-3 mb-3">
-                <div className="d-flex justify-content-between align-items-center">
+            <div className={styles.section}>
+                <div className={styles.title}>
                     <strong>Price</strong>
-                    <BsChevronDown onClick={() => setActive("price")} style={{ cursor: "pointer" }} />
+                    <BsChevronDown onClick={() => setActive("price")} />
                 </div>
-                <div className={active === "price" ? "mt-2" : "d-none"}>
+                <div className={styles.rangeSlider}>
+                    <div className={styles.background} />
+                    <div
+                        className={styles.track}
+                        style={{
+                            left: `${(price.min / 250) * 100}%`,
+                            width: `${((price.max - price.min) / 250) * 100}%`,
+                        }}
+                    />
+
                     <input
                         type="range"
-                        className="form-range"
-                        min="50"
-                        max="1000"
-                        value={price[0]}
-                        onChange={(e) => setPrice([Number(e.target.value), price[1]])}
+                        min="0"
+                        max="250"
+                        value={price.min}
+                        onChange={handleMinChange}
+                        className={styles.thumb}
                     />
-                    <div className="d-flex justify-content-between text-muted small">
-                        <span>${price[0]}</span> <span>${price[1]}</span>
-                    </div>
+                    <input
+                        type="range"
+                        min="0"
+                        max="250"
+                        value={price.max}
+                        onChange={handleMaxChange}
+                        className={styles.thumb}
+                    />
+
+                    <span
+                        className={styles.priceLabel}
+                        style={{ left: `calc(${(price.min / 250) * 100}% - 12px)` }}
+                    >
+                        ${price.min}
+                    </span>
+                    <span
+                        className={styles.priceLabel}
+                        style={{ left: `calc(${(price.max / 250) * 100}% - 12px)` }}
+                    >
+                        ${price.max}
+                    </span>
                 </div>
+
+
+
             </div>
 
             {/* Colors */}
-            <div className="border-bottom pb-3 mb-3">
-                <div className="d-flex justify-content-between align-items-center">
+            <div className={styles.section}>
+                <div className={styles.title}>
                     <strong>Colors</strong>
-                    <BsChevronDown onClick={() => setActive("color")} style={{ cursor: "pointer" }} />
+                    <BsChevronDown onClick={() => setActive("color")} />
                 </div>
-                <div className={active === "color" ? "mt-2" : "d-none"}>
+                <div className={active === "color" ? styles.content : "d-none"}>
                     <ColorsList colors={colors} />
                 </div>
             </div>
 
             {/* Sizes */}
-            <div className="border-bottom pb-3 mb-3">
-                <div className="d-flex justify-content-between align-items-center">
+            <div className={styles.section}>
+                <div className={styles.title}>
                     <strong>Size</strong>
-                    <BsChevronDown onClick={() => setActive("size")} style={{ cursor: "pointer" }} />
+                    <BsChevronDown onClick={() => setActive("size")} />
                 </div>
-                <div className={active === "size" ? "mt-2" : "d-none"}>
+                <div className={active === "size" ? styles.content : "d-none"}>
                     <SizeButton sizes={sizes} />
                 </div>
             </div>
 
             {/* Dress Style */}
-            <div className="border-bottom pb-3 mb-3">
-                <div className="d-flex justify-content-between align-items-center">
+            <div className={styles.section}>
+                <div className={styles.title}>
                     <strong>Dress Style</strong>
-                    <BsChevronDown onClick={() => setActive("style")} style={{ cursor: "pointer" }} />
+                    <BsChevronDown onClick={() => setActive("style")} />
                 </div>
-                <div className={active === "style" ? "mt-2" : "d-none"}>
+                <div className={active === "style" ? styles.content : "d-none"}>
                     {["Casual", "Formal", "Party", "Gym"].map((style) => (
-                        <div
-                            key={style}
-                            className="p-2 rounded text-secondary mt-2"
-                            style={{ cursor: "pointer" }}
-                            onMouseOver={(e) => {
-                                e.currentTarget.style.backgroundColor = "#000";
-                                e.currentTarget.style.color = "#fff";
-                            }}
-                            onMouseOut={(e) => {
-                                e.currentTarget.style.backgroundColor = "";
-                                e.currentTarget.style.color = "";
-                            }}
-                        >
-                            {style}
+                        <div key={style} className={styles.style}>
+                            {style} <Image src="/images/right.svg" alt="close sidebar" width={16} height={16} />
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Apply Button */}
-            <button className="btn btn-dark w-100 mt-3">Apply Filter</button>
+            <button className={styles.applyButton}>Apply Filter</button>
+
         </div>
     );
 };
