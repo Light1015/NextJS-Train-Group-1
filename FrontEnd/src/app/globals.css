@@ -1,7 +1,8 @@
 @font-face {
   font-family: 'Satoshi';
-  src: url('/font/Satoshi-Regular.woff2') format('woff2'),
-    url('/font/Satoshi-Regular.woff') format('woff');
+  src: url('/fonts/Satoshi-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
