@@ -1,17 +1,12 @@
 @font-face {
   font-family: 'Satoshi';
-  src: url('/font/Satoshi-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  src: url('/font/Satoshi-Regular.woff2') format('woff2'),
+    url('/font/Satoshi-Regular.woff') format('woff');
 }
 
 @font-face {
   font-family: 'IntegralCF';
-  src: url('/font/Fontspring-DEMO-integralcf-regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  src: url('/font/FONTSPRINGDEMO-IntegralCFRegular.woff') format('woff');
 }
 
 /* Global styles */

@@ -6,7 +6,6 @@ import Image from "next/image";
 import styles from "./Header.module.scss";
 import { MdSearch } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { RiArrowDropDownLine } from "react-icons/ri";
 
 function Header() {
     return (
