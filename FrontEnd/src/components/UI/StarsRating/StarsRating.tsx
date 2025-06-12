@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import styles from "./StarsRating.module.scss";
 
 interface StarsRatingProps {
     rating: number;
@@ -11,15 +12,27 @@ function StarsRating({ rating, showRating }: StarsRatingProps) {
     const halfStar = rating % 1 !== 0;
 
     return (
-        <div className="flex items-center">
+        <div className={styles.ratingWrapper}>
             {Array.from({ length: stars }).map((_, index) => (
-                <img src="/images/StarRate.svg" alt="star" key={index} className="w-4 h-4" />
+                <img
+                    src="/images/StarRate.svg"
+                    alt="star"
+                    key={index}
+                    className={styles.starIcon}
+                />
             ))}
             {halfStar && (
-                <img src="/images/halfstar.svg" alt="halfstar" className="w-4 h-4 -ml-1" />
+                <img
+                    src="/images/halfstar.svg"
+                    alt="halfstar"
+                    className={`${styles.starIcon} ${styles.halfStar}`}
+                />
             )}
             {showRating && (
-                <span className="text-gray-500 text-sm ml-2 font-light">{rating}/5</span>
+                <span className={styles.ratingNumber}>
+                    {rating}
+                    <span className={styles.ratingOutOf}>/5</span>
+                </span>
             )}
         </div>
     );

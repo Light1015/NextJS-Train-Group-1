@@ -5,7 +5,6 @@ import SidebarFilter from "@components/Layouts/SidebarFilter/SidebarFilter";
 import ProductCard from "@/components/UI/ProductCard/ProductCard";
 import Image from "next/image";
 import products from "@/constants/products";
-import { FaSlidersH } from "react-icons/fa";
 import styles from "./Casual.module.scss";
 
 export default function Casual() {

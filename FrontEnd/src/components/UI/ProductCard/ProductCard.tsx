@@ -20,33 +20,35 @@ interface ProductProps {
 
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
     return (
-        <div className={`card h-100 ${styles.productCard}`}>
-            <Link href={`/product/${product.id}`} className="text-decoration-none text-dark">
-                <div className={`${styles.productImage}`}>
+        <div className={`card h-100 position-relative ${styles.productCard}`}>
+            <Link href={`/product/${product.id}`}>
+                <div className={styles.productImage}>
                     <Image
                         src={product.image}
                         alt={product.name}
-                        fill
-                        className="p-3"
+                        width={295}
+                        height={298}
                     />
+
                 </div>
                 <div className={`card-body ${styles.cardBody}`}>
                     <h5 className={`card-title ${styles.cardTitle}`}>{product.name}</h5>
-                    <StarsRating rating={product.rating} showRating={true} />
-                    <div className="mt-2">
-                        <span className="fw-bold me-2">{product.price}</span>
+                    <div className={styles.rating}>
+                        <StarsRating rating={product.rating} showRating={true} />
+                    </div>
+                    <div className={`${styles.priceWrapper} mt-2`}>
+                        <span className={styles.price}>{product.price}</span>
                         {product.oldPrice && (
-                            <span className="text-muted text-decoration-line-through me-2">
-                                {product.oldPrice}
-                            </span>
+                            <span className={styles.oldPrice}>{product.oldPrice}</span>
                         )}
                         {product.discount && (
-                            <span className="badge bg-danger text-white">-{product.discount}</span>
+                            <span className={styles.discount}>-{product.discount}</span>
                         )}
                     </div>
                 </div>
             </Link>
         </div>
+
     );
 };
 
