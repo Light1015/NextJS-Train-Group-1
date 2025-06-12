@@ -27,31 +27,33 @@ function Header() {
 
             {/* Header */}
             <header className={styles.headerWrapper}>
-                <div className={styles.logoSection}>
-                    <Link href="/">
-                        <Image src="/images/SHOP.CO.svg" alt="Shop.co Logo" width={160} height={24} />
-                    </Link>
-                </div>
+                <div className={styles.headerContent}>
+                    <div className={styles.logoSection}>
+                        <Link href="/">
+                            <Image src="/images/SHOP.CO.svg" alt="Shop.co Logo" width={160} height={24} />
+                        </Link>
+                    </div>
 
-                <nav className={styles.nav}>
-                    <Link href="/categories/Shop">Shop <Image src="/images/dropdown.svg" alt="Shop.co Logo" width={11.51} height={6.5} /></Link>
-                    <Link href="/categories/On-Sale">On Sale</Link>
-                    <Link href="/categories/New-Arrivals">New Arrivals</Link>
-                    <Link href="/categories/Brands">Brands</Link>
-                </nav>
+                    <nav className={styles.nav}>
+                        <Link href="/categories/">Shop <Image src="/images/dropdown.svg" alt="Shop.co Logo" width={11.51} height={6.5} /></Link>
+                        <Link href="/casual/">On Sale</Link>
+                        <Link href="/categories/">New Arrivals</Link>
+                        <Link href="/categories/">Brands</Link>
+                    </nav>
 
-                <div className={styles.searchBar}>
-                    <MdSearch size={20} color="gray" />
-                    <input type="text" placeholder="Search for products..." />
-                </div>
+                    <div className={styles.searchBar}>
+                        <MdSearch size={20} color="gray" />
+                        <input type="text" placeholder="Search for products..." />
+                    </div>
 
-                <div className={styles.actionGroup}>
-                    <Link href="/cart">
-                        <Image src="/images/cart.svg" alt="Cart" width={24} height={24} />
-                    </Link>
-                    <Link href="/account">
-                        <Image src="/images/user.svg" alt="User" width={24} height={24} />
-                    </Link>
+                    <div className={styles.actionGroup}>
+                        <Link href="/cart">
+                            <Image src="/images/cart.svg" alt="Cart" width={24} height={24} />
+                        </Link>
+                        <Link href="/account">
+                            <Image src="/images/user.svg" alt="User" width={24} height={24} />
+                        </Link>
+                    </div>
                 </div>
             </header>
         </>

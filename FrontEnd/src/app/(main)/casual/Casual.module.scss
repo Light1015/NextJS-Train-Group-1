@@ -1,0 +1,60 @@
+.container {
+    position: relative;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    display: flex;
+    gap: 2.5rem;
+}
+
+.mainContent {
+    flex: 1;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.filterButton {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    padding: 0.5rem 0.75rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filterButton:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.pagination {
+    width: 100%;
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e5e7eb;
+}
