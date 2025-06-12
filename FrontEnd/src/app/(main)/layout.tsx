@@ -1,4 +1,4 @@
-import Header from '../../components/Layouts/Header/Header'    // đường dẫn tuỳ bạn đặt
+import Header from '../../components/Layouts/Header/Header'  
 import Footer from '../../components/Layouts/Footer/Footer'
 import Breadcrumbs from '../../components/UI/Breadcrumbs/Breadcrumbs'
 import styles from './layout.module.scss'

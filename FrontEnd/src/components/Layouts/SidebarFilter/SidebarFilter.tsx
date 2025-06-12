@@ -4,11 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { BsChevronDown } from "react-icons/bs";
 
-// Make sure the path is correct; adjust if necessary:
-import SizeButton from "/UI/SizeButton";
-import ColorsList from "/UI/ColorsList/ColorsList";
-
-import cross from "../../assets/cross.svg";
+import SizeButton from "@/components/UI/SizeButton/SizeButton";
+import ColorsList from "@/components/UI/ColorsList/ColorsList";
 
 interface SidebarFilterProps {
     showSideBar: boolean;
@@ -36,7 +33,8 @@ const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
                     style={{ width: "16px", height: "16px", cursor: "pointer" }}
                     onClick={() => setshowSideBar(false)}
                 >
-                    <Image src={cross} alt="close sidebar" width={16} height={16} />
+                    <Image src="/images/cross.svg" alt="close sidebar" width={16} height={16} />
+
                 </div>
             </div>
 

@@ -46,6 +46,47 @@
     margin-top: 1.25rem;
 }
 
+.paginationWrapper {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e5e7eb;
+    position: relative;
+    width: 100%;
+    min-height: 50px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.pageNumbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.arrowLeft,
+.arrowRight {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.arrowLeft {
+    left: 0;
+}
+
+.arrowRight {
+    right: 0;
+}
+
+
 @media (min-width: 1024px) {
     .grid {
         grid-template-columns: repeat(3, 1fr);
