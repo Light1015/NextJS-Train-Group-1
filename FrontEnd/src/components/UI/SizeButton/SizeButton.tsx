@@ -1,27 +1,30 @@
 "use client";
-
-import React, { useState } from "react";
-import styles from "./SizeButton.module.scss";
+import React from "react";
 
 interface SizeButtonProps {
     sizes: string[];
 }
 
 function SizeButton({ sizes }: SizeButtonProps) {
-    const [currentSize, setCurrentSize] = useState("Large");
+    const [currentSize, setCurrentSize] = React.useState("Large");
 
     return (
-        <div className={styles.wrapper}>
-            {sizes.map((size) => (
-                <button
-                    key={size}
-                    type="button"
-                    onClick={() => setCurrentSize(size)}
-                    className={`${styles.sizeBtn} ${currentSize === size ? styles.active : styles.inactive}`}
-                >
-                    {size}
-                </button>
-            ))}
+        <div className="flex flex-wrap gap-3">
+            {sizes.map((size, index) => {
+                return (
+                    <button
+                        key={index}
+                        onClick={() => setCurrentSize(size)}
+                        className={`py-2.5 px-4 text-sm rounded-full cursor-pointer transition-colors duration-200 ${
+                            size === currentSize
+                                ? "text-white bg-black"
+                                : "bg-gray-200 text-gray-600"
+                        } hover:text-white hover:bg-black`}
+                    >
+                        {size}
+                    </button>
+                );
+            })}
         </div>
     );
 }

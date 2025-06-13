@@ -63,39 +63,62 @@ function Cart() {
     };
 
     return (
-        <div className="p-5 container mx-auto">
+        <div className="p-0 container mx-auto">
             <Title title="your cart" classes="text-left mb-5" />
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 relative">
                 <div className="lg:col-span-3 space-y-4 border p-3 border-gray-200 rounded-lg">
                     {items.map((item) => (
                         <div
                             key={item.id}
-                            className="flex border-b border-gray-200 items-center justify-between py-4"
+                            className="flex gap-4 border-b border-gray-200 py-4 items-start"
                         >
-                            <Image
-                                src={item.image}
-                                alt={item.name}
-                                width={96}
-                                height={96}
-                                className="rounded"
-                            />
-                            <div className="flex-1 ml-4">
-                                <h3 className="font-semibold line-clamp-1">{item.name}</h3>
-                                <p className="text-sm text-gray-600">Size: {item.size}</p>
-                                <p className="text-sm text-gray-600">Color: {item.color}</p>
-                                <p className="font-bold mt-2">${item.price}</p>
+                            {/* Image */}
+                            <div className="w-20 h-20 flex-shrink-0">
+                                <Image
+                                    src={item.image}
+                                    alt={item.name}
+                                    width={80}
+                                    height={80}
+                                    className="rounded object-cover w-full h-full"
+                                />
                             </div>
-                            <div className="flex flex-col gap-10 items-end">
-                                <button
-                                    onClick={() => removeItem(item.id)}
-                                    className="text-[#FF3333] ml-4 cursor-pointer"
-                                >
-                                    <FaRegTrashCan size={20} />
-                                </button>
-                                <QuantityCounter currentQuantity={item.quantity} />
+
+                            {/* Details + Counter */}
+                            <div className="flex-1">
+                                {/* Top row: name + trash */}
+                                <div className="flex justify-between items-start mb-1">
+                                    <h3 className="font-semibold text-sm leading-snug">
+                                        {item.name}
+                                    </h3>
+                                    <button
+                                        onClick={() => removeItem(item.id)}
+                                        className="text-[#FF3333] cursor-pointer"
+                                    >
+                                        <FaRegTrashCan size={18} />
+                                    </button>
+                                </div>
+
+                                {/* Size and color */}
+                                <p className="text-sm text-gray-600">
+                                    Size: {item.size}
+                                </p>
+                                <p className="text-sm text-gray-600 mb-2">
+                                    Color: {item.color}
+                                </p>
+
+                                {/* Price + Quantity */}
+                                <div className="flex items-center justify-between mt-1">
+                                    <span className="font-bold text-base">${item.price}</span>
+                                    <QuantityCounter
+                                        currentQuantity={item.quantity}
+                                        onDecrement={() => updateQuantity(item.id, -1)}
+                                        onIncrement={() => updateQuantity(item.id, 1)}
+                                    />
+                                </div>
                             </div>
                         </div>
                     ))}
+
                 </div>
 
                 <div className="p-6 h-fit lg:sticky top-0 lg:col-span-2 border border-gray-200 rounded-lg">

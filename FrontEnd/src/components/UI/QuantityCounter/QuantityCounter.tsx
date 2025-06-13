@@ -2,6 +2,8 @@ import React from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 interface QuantityCounterProps {
     currentQuantity: number;
+    onIncrement: () => void;
+    onDecrement: () => void;
 }
 
 function QuantityCounter({ currentQuantity }: QuantityCounterProps) {

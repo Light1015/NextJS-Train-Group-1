@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import StarsRating from "../StarsRating/StarsRating";
-import styles from "./ProductCard.module.scss";
 
 interface ProductProps {
     product: {
@@ -20,31 +19,39 @@ interface ProductProps {
 
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
     return (
-        <div className={`card h-100 position-relative ${styles.productCard}`}>
+        <div key={product.id}>
             <Link href={`/product/${product.id}`}>
-                <div className={styles.productImage}>
-                    <Image
+                {/* Product Image */}
+                <div className="w-full aspect-square bg-[#f0eeed] rounded-2xl mb-4 overflow-hidden sm:rounded-[13.42px]">
+                    <img
                         src={product.image}
                         alt={product.name}
-                        width={295}
-                        height={298}
+                        className="w-full h-full object-cover"
                     />
-
                 </div>
-                <div className={`card-body ${styles.cardBody}`}>
-                    <h5 className={`card-title ${styles.cardTitle}`}>{product.name}</h5>
-                    <div className={styles.rating}>
-                        <StarsRating rating={product.rating} showRating={true} />
-                    </div>
-                    <div className={`${styles.priceWrapper} mt-2`}>
-                        <span className={styles.price}>{product.price}</span>
-                        {product.oldPrice && (
-                            <span className={styles.oldPrice}>{product.oldPrice}</span>
-                        )}
-                        {product.discount && (
-                            <span className={styles.discount}>-{product.discount}</span>
-                        )}
-                    </div>
+
+                {/* Product Name */}
+                <h3
+                    className="font-semibold text-sm truncate max-w-[155px] sm:max-w-[155px]"
+                    title={product.name}
+                >
+                    {product.name}
+                </h3>
+
+                {/* Rating */}
+                <StarsRating rating={product.rating} showRating={true} />
+
+                {/* Prices */}
+                <div className="mt-2 flex items-center gap-2 text-sm flex-wrap sm:flex-nowrap">
+                    <span className="text-lg font-medium">{product.price}</span>
+                    {product.oldPrice && (
+                        <span className="text-gray-500 line-through">{product.oldPrice}</span>
+                    )}
+                    {product.discount && (
+                        <span className="text-red-500 bg-red-100 text-xs rounded-full px-2 py-0.5">
+                            -{product.discount}
+                        </span>
+                    )}
                 </div>
             </Link>
         </div>

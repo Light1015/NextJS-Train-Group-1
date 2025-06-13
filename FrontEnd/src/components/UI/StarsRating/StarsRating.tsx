@@ -1,37 +1,40 @@
-"use client";
-import React from "react";
-import styles from "./StarsRating.module.scss";
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
 
 interface StarsRatingProps {
     rating: number;
     showRating?: boolean;
 }
 
-function StarsRating({ rating, showRating }: StarsRatingProps) {
+function StarsRating({ rating, showRating = false }: StarsRatingProps) {
     const stars = Math.floor(rating);
     const halfStar = rating % 1 !== 0;
 
     return (
-        <div className={styles.ratingWrapper}>
+        <div className="flex items-center gap-0.5">
             {Array.from({ length: stars }).map((_, index) => (
-                <img
+                <Image
+                    key={index}
                     src="/images/StarRate.svg"
                     alt="star"
-                    key={index}
-                    className={styles.starIcon}
+                    width={16}
+                    height={16}
                 />
             ))}
             {halfStar && (
-                <img
+                <Image
                     src="/images/halfstar.svg"
-                    alt="halfstar"
-                    className={`${styles.starIcon} ${styles.halfStar}`}
+                    alt="half star"
+                    width={9}
+                    height={9}
+                    className="-ml-1"
                 />
             )}
             {showRating && (
-                <span className={styles.ratingNumber}>
-                    {rating}
-                    <span className={styles.ratingOutOf}>/5</span>
+                <span className="text-gray-500 text-sm ml-2 font-light">
+                    {rating}/5
                 </span>
             )}
         </div>

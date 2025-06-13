@@ -1,22 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
+
 import SidebarFilter from "@components/Layouts/SidebarFilter/SidebarFilter";
 import ProductCard from "@/components/UI/ProductCard/ProductCard";
-import Image from "next/image";
+import Pagination from "@/components/UI/Pagination/Pagination";
 import products from "@/constants/products";
-import styles from "./Casual.module.scss";
 
 export default function Casual() {
     const [showSideBar, setshowSideBar] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 9;
+    const [productsPerPage, setProductsPerPage] = useState(9);
 
-    // Tính các chỉ số phân trang
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setProductsPerPage(6); // mobile
+            } else {
+                setProductsPerPage(9); // desktop
+            }
+        };
+
+        handleResize(); // on mount
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-    const totalPages = Math.ceil(products.length / productsPerPage);
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
@@ -24,103 +38,115 @@ export default function Casual() {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.sidebarWrapper}>
-                <SidebarFilter
-                    setshowSideBar={setshowSideBar}
-                    showSideBar={showSideBar}
-                />
-            </div>
-            <div className={styles.mainContent}>
-                <div className={styles.header}>
-                    <h1 className={styles.title}>Casual</h1>
-
-                    <div className={styles.actions}>
-                        <p className={styles.filterText}>Showing 1–10 of 100 Products</p>
-                        <div className={styles.sort}>
-                            <span>Sort by:</span>
-                            <strong>Most Popular</strong>
-                            <Image src="/images/dropdown.svg" alt="Sort by" width={16} height={16} />
-                        </div>
-                    </div>
+        <>
+            {/* Main Container */}
+            <div className="container relative mx-auto px-4 md:px-5 flex gap-10">
+                {/* Sidebar - desktop */}
+                <div className="hidden md:block w-64">
+                    <SidebarFilter
+                        setshowSideBar={setshowSideBar}
+                        showSideBar={showSideBar}
+                    />
                 </div>
 
+                {/* Content */}
+                <div className="flex-1">
+                    {/* Header Section */}
+                    <div className="w-full mb-6">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                            {/* Left side: Title */}
+                            <h1
+                                className="text-lg md:text-2xl font-bold"
+                                style={{
+                                    fontFamily: "Satoshi",
+                                    fontWeight: 700,
+                                    lineHeight: "100%",
+                                    letterSpacing: "0",
+                                    verticalAlign: "middle",
+                                }}
+                            >
+                                Casual
+                            </h1>
 
-                <div className={styles.grid}>
-                    {currentProducts.map((product) => (
-                        <ProductCard
-                            key={product.id}
-                            product={{
-                                ...product,
-                                image:
-                                    typeof product.image === "string"
-                                        ? product.image
-                                        : product.image.src ?? "",
-                                rating:
-                                    typeof product.rating === "string"
-                                        ? Number(product.rating)
-                                        : product.rating,
-                            }}
+                            {/* Right side: Count + Sort + Filter button */}
+                            <div className="flex items-center gap-3">
+                                {/* Product count */}
+                                <div
+                                    className="text-xs md:text-base text-gray-700 text-right"
+                                    style={{
+                                        fontFamily: "Satoshi",
+                                        fontWeight: 400,
+                                        lineHeight: "100%",
+                                        letterSpacing: "0",
+                                    }}
+                                >
+                                    Showing {indexOfFirstProduct + 1}–{Math.min(indexOfLastProduct, products.length)} of {products.length} Products
+                                </div>
+
+                                {/* Sort by - desktop only */}
+                                <div
+                                    className="hidden md:flex items-center gap-1 text-sm text-gray-700"
+                                    style={{ fontFamily: "Satoshi", fontSize: "16px", lineHeight: "100%" }}
+                                >
+                                    <span>
+                                        Sort by:&nbsp;
+                                        <span style={{ fontWeight: 500 }}>Most Popular</span>
+                                    </span>
+                                    <BsChevronDown className="text-gray-500" />
+                                </div>
+
+                                {/* Filter button - mobile only */}
+                                <button
+                                    onClick={() => setshowSideBar(true)}
+                                    className="flex md:hidden items-center gap-1 bg-gray-100 cursor-pointer hover:bg-black hover:text-white text-gray-400 rounded-full py-2 px-2"
+                                >
+                                    <Image
+                                        src="/images/filter.svg"
+                                        alt="filter icon"
+                                        width={16}
+                                        height={16}
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Product Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {currentProducts.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
+                    </div>
+
+                    {/* Pagination */}
+                    <div className="w-full mt-10 py-5 border-t border-gray-200">
+                        <Pagination
+                            cards={products}
+                            numberOfProducts={productsPerPage}
+                            currentPage={currentPage}
+                            handlePageChange={handlePageChange}
                         />
-                    ))}
-                </div>
-
-                <div className={styles.paginationWrapper}>
-                    <div className={styles.pagination}>
-                        {/* Left */}
-                        <div className={styles.left}>
-                            <button
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                className={`btn btn-sm ${styles.navButton}`}
-                                disabled={currentPage === 1}
-                            >
-                                <Image src="/images/arrow-left.svg" alt="Previous" width={20} height={20} />
-                                Previous
-                            </button>
-                        </div>
-
-                        {/* Page Numbers */}
-                        <div className={styles.pageNumbers}>
-                            {Array.from({ length: totalPages }, (_, i) => i + 1)
-                                .filter((page) => page === 1 || page === totalPages || Math.abs(page - currentPage) <= 1)
-                                .reduce((acc: (number | "...")[], page, idx, arr) => {
-                                    if (idx > 0 && page - (arr[idx - 1] as number) > 1) {
-                                        acc.push("...");
-                                    }
-                                    acc.push(page);
-                                    return acc;
-                                }, [])
-                                .map((item, index) =>
-                                    item === "..." ? (
-                                        <span key={index} className={styles.dots}>...</span>
-                                    ) : (
-                                        <button
-                                            key={item}
-                                            className={`${styles.pageButton} ${currentPage === item ? styles.active : styles.inactive}`}
-                                            onClick={() => handlePageChange(item as number)}
-                                        >
-                                            {item}
-                                        </button>
-                                    )
-                                )}
-                        </div>
-
-                        {/* Right */}
-                        <div className={styles.right}>
-                            <button
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                className={`btn btn-sm ${styles.navButton}`}
-                                disabled={currentPage === totalPages}
-                            >
-                                Next
-                                <Image src="/images/arrow-right.svg" alt="Next" width={20} height={20} />
-                            </button>
-                        </div>
                     </div>
                 </div>
+            </div >
 
-
-            </div>
-        </div>
+            {/* Mobile Sidebar Filter */}
+            {
+                showSideBar && (
+                    <div className="fixed inset-0 z-50 flex items-start justify-center md:hidden">
+                        <div
+                            className="fixed inset-0 bg-black bg-opacity-40"
+                            onClick={() => setshowSideBar(false)}
+                        />
+                        <div className="absolute left-1/2 -translate-x-1/2 w-[390px] h-[1066px] rounded-t-[20px] bg-[#00000033] z-50 overflow-y-auto filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.3)]">
+                            <SidebarFilter
+                                showSideBar={showSideBar}
+                                setshowSideBar={setshowSideBar}
+                            />
+                        </div>
+                    </div>
+                )
+            }
+        </>
     );
 }

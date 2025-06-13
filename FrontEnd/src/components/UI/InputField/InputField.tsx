@@ -1,23 +1,27 @@
-import React from "react";
-import styles from "./InputField.module.scss";
+'use client';
 
-interface InputFieldProps {
+import React from 'react';
+
+type InputFieldProps = {
     icon?: React.ReactNode;
     placeholder?: string;
     classes?: string;
-}
+};
 
-function InputField({ icon, placeholder, classes }: InputFieldProps) {
+const InputField: React.FC<InputFieldProps> = ({ icon, placeholder, classes }) => {
     return (
-        <div className={`${styles.inputWrapper} ${classes || styles.defaultBg}`}>
+        <div
+            className={`gap-2 items-center flex px-3 ${classes ? classes : 'bg-gray-100'
+                } text-gray-600 rounded-full outline-none focus-within:ring-2`}
+        >
             {icon}
             <input
                 type="text"
-                placeholder={placeholder || "Search for products..."}
-                className={styles.inputField}
+                placeholder={placeholder || 'Search for products...'}
+                className="flex-1 py-2 bg-transparent focus:outline-none"
             />
         </div>
     );
-}
+};
 
 export default InputField;
