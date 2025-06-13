@@ -1,0 +1,35 @@
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 247px; 
+    max-width: 100%; // Đảm bảo không vượt quá chiều rộng của phần tử cha
+    height: 227px; // Chiều cao cố định
+    gap: 8px; // tương đương gap-2 Bootstrap
+}
+
+.sizeBtn {
+    height: 39px; // tương đương btn-sm
+    padding: 10px 20px; // tương đương btn-sm
+    border-radius: 62px; // rounded-pill
+    font-size: 14px; // tương đương btn-sm
+    border: 1px solid #dee2e6;
+    background: #F0F0F0;
+    color: #6c757d; // text-muted
+    transition: all 0.2s ease;
+    cursor: pointer;
+    gap: 12px;
+
+    &:hover {
+        background-color: #e2e6ea;
+    }
+}
+
+.active {
+    background-color: #212529; // btn-dark
+    color: #fff;
+    border-color: #212529;
+}
+
+.active:hover {
+    background-color: #1d2124; // btn-dark hover
+}
