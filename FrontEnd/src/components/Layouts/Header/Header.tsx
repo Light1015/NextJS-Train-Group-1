@@ -35,7 +35,12 @@ function Header() {
                     </div>
 
                     <nav className={styles.nav}>
-                        <Link href="/categories/">Shop <Image src="/images/dropdown.svg" alt="Shop.co Logo" width={11.51} height={6.5} /></Link>
+                        <Link href="/categories/">
+                            <span className={styles.shopWithIcon}>
+                                Shop
+                                <Image src="/images/dropdown.svg" alt="Dropdown" width={11.51} height={6.5} />
+                            </span>
+                        </Link>
                         <Link href="/casual/">On Sale</Link>
                         <Link href="/categories/">New Arrivals</Link>
                         <Link href="/categories/">Brands</Link>
@@ -47,7 +52,7 @@ function Header() {
                     </div>
 
                     <div className={styles.actionGroup}>
-                        <Link href="/cart">
+                        <Link href="/cart/">
                             <Image src="/images/cart.svg" alt="Cart" width={24} height={24} />
                         </Link>
                         <Link href="/account">
