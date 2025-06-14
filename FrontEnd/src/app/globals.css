@@ -1,4 +1,11 @@
+<<<<<<< Updated upstream
 /* Global styles */ 
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Global styles */
+>>>>>>> Stashed changes
 
 body {
   margin: 0;
