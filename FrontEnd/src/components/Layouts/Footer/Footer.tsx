@@ -81,15 +81,18 @@ const Footer = () => {
                         <div key={index}>
                             <h4 className="font-[Satoshi] text-[16px] font-500">{col.title}</h4>
                             <ul className="font-[Satoshi] mt-6 text-sm flex flex-col gap-3">
-                                {col.isLinked
-                                    ? col.items.map((item, idx) => (
-                                        <li key={idx}>
+                                {col.items.map((item, idx) => (
+                                    <li key={idx}>
+                                        {typeof item === "string" ? (
+                                            item
+                                        ) : (
                                             <Link href={item.href} className="hover:underline hover:text-black transition">
                                                 {item.label}
                                             </Link>
-                                        </li>
-                                    ))
-                                    : col.items.map((item, idx) => <li key={idx}>{item}</li>)}
+                                        )}
+                                    </li>
+                                ))}
+
                             </ul>
                         </div>
                     ))}
