@@ -56,7 +56,7 @@ export default function Casual() {
                         <div className="flex items-center justify-between flex-wrap gap-2">
                             {/* Left side: Title */}
                             <h1
-                                className="text-lg md:text-2xl font-bold"
+                                className="text-lg md:text-2xl font-bold mt-0"
                                 style={{
                                     fontFamily: "Satoshi",
                                     fontWeight: 700,
