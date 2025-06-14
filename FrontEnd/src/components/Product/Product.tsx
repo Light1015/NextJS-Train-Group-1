@@ -8,7 +8,7 @@ const Product = () => {
     const topProducts = products.slice(0, 4);
 
     return (
-        <div className="container my-5">
+        <div className="container my-5 pb-5">
             <h2 className="text-center fw-bold mb-4">YOU MIGHT ALSO LIKE</h2>
             <div className="row">
                 {topProducts.map((product) => (
