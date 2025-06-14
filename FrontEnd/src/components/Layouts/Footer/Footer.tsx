@@ -69,11 +69,20 @@ const Footer = () => {
                             We have clothes that suit your style and which you're proud to wear. From women to men.
                         </p>
                         <ul className="flex gap-3 mt-3">
-                            <Image src="/images/twitter.webp" alt="twitter" width={28} height={28} />
-                            <Image src="/images/facebook.webp" alt="facebook" width={28} height={28} />
-                            <Image src="/images/instagram.webp" alt="instagram" width={28} height={28} />
-                            <Image src="/images/github.webp" alt="github" width={28} height={28} />
+                            <span className="bg-transparent">
+                                <Image src="/images/twitter.webp" alt="twitter" width={28} height={28} />
+                            </span>
+                            <span className="bg-transparent">
+                                <Image src="/images/facebook.webp" alt="facebook" width={28} height={28} />
+                            </span>
+                            <span className="bg-transparent">
+                                <Image src="/images/instagram.webp" alt="instagram" width={28} height={28} />
+                            </span>
+                            <span className="bg-transparent">
+                                <Image src="/images/github.webp" alt="github" width={28} height={28} />
+                            </span>
                         </ul>
+
                     </div>
 
                     {/* Các cột liên kết */}
@@ -105,6 +114,7 @@ const Footer = () => {
             <div className="w-[90%] max-w-[1200px] mx-auto border-t border-gray-200 text-sm text-gray-500 py-6 flex flex-col items-center text-center md:flex-row md:justify-between md:text-left md:items-center gap-4">
                 <p>Shop.co © 2000-2023, All Rights Reserved</p>
                 <div className="flex gap-2 flex-wrap justify-center">
+
                     <Image src="/images/visa.webp" alt="Visa" width={46.61} height={30.03} />
                     <Image src="/images/mastercard.webp" alt="MasterCard" width={46.61} height={30.03} />
                     <Image src="/images/paypal.webp" alt="PayPal" width={46.61} height={30.03} />

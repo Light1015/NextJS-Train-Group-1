@@ -1,19 +1,7 @@
-@font-face {
-    font-family: 'Satoshi';
-    src: url('/font/Satoshi-Regular.otf') format('opentype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
 
-@font-face {
-    font-family: 'IntegralCF';
-    src: url('/font/FONTSPRINGDEMO-IntegralCFRegular.otf') format('woff');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
+.placeholder {
+  display: none;
 }
-
 .productDetail {
     margin-top: -110px;
     margin-left: -150px;
