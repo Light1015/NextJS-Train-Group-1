@@ -47,7 +47,7 @@ function Header() {
                             <MdMenu size={26} />
                         </button>
                         <Link href="/homepage" passHref>
-                            <Image src="/images/SHOP.CO.webp" alt="shop.co logo" width={160} height={22} />
+                            <Image src="/images/SHOP.CO.png" alt="shop.co logo" width={160} height={22} />
                         </Link>
                     </div>
 

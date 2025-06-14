@@ -38,7 +38,7 @@ const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
                         Filters
                         {/* Close icon - only mobile */}
                         <Image
-                            src="/images/cross.webp"
+                            src="/images/cross.png"
                             alt="close filter"
                             width={24}
                             height={24}
@@ -49,7 +49,7 @@ const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
 
                     {/* Filter icon - only desktop */}
                     <Image
-                        src="/images/filter.webp"
+                        src="/images/filter.png"
                         alt="filter icon"
                         width={24}
                         height={24}
