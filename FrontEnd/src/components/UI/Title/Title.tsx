@@ -1,8 +1,7 @@
 import React from "react";
 
 interface TitleProps {
-  title: string;
-  classes?: string;
+  title: React.ReactNode;
 }
 
 function Title({ title, classes }: TitleProps) {
