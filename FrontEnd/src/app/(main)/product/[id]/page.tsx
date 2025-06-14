@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from './ProductDetail.module.scss';
-import { Button } from 'react-bootstrap';
+import Button from "@/components/UI/Button/Button";
 import products from "@/constants/products";
 import ProductDetail from '@/components/ProductDetail/ProductDetails';
 import RatingsAndReviews from '@/components/RatingAndReview/RatingsAndReviews';
@@ -29,7 +29,7 @@ const ProductDetails = () => {
     };
 
     const renderStars = () => {
-        const ratingNumber = parseFloat(product.rating); // Chuyển string -> number
+        const ratingNumber = product.rating; // rating is already a number
         const stars = [];
         const fullStars = Math.floor(ratingNumber);
         const hasHalfStar = ratingNumber % 1 !== 0;
@@ -103,7 +103,7 @@ const ProductDetails = () => {
                                 style={{ background: '#4F4631' }}
                             >
                                 {selectedColor === 'color1' && (
-                                    <img src="./images/tick.png" alt="Selected" className={styles.tick} />
+                                    <img src="/images/tick.png" alt="Selected" className={styles.tick} />
                                 )}
                             </button>
                             <button
@@ -112,7 +112,7 @@ const ProductDetails = () => {
                                 style={{ background: '#314F4A' }}
                             >
                                 {selectedColor === 'color2' && (
-                                    <img src="./images/tick.png" alt="Selected" className={styles.tick} />
+                                    <img src="/images/tick.png" alt="Selected" className={styles.tick} />
                                 )}
                             </button>
                             <button
@@ -121,7 +121,7 @@ const ProductDetails = () => {
                                 style={{ background: '#31344F' }}
                             >
                                 {selectedColor === 'color3' && (
-                                    <img src="./images/tick.png" alt="Selected" className={styles.tick} />
+                                    <img src="/images/tick.png" alt="Selected" className={styles.tick} />
                                 )}
                             </button>
                         </div>
@@ -148,7 +148,11 @@ const ProductDetails = () => {
                             <span>{quantity}</span>
                             <button onClick={() => handleQuantity('inc')}>+</button>
                         </div>
-                        <Button className={styles.cartButton}>Add to Cart</Button>
+                        {/* <Button className={styles.cartButton}>Add to Cart</Button> */}
+                         <Button
+                            title="Add to Cart"
+                            classes="bg-black text-white w-full md:w-fit"
+                        />
                     </div>
                 </div>
             </div>

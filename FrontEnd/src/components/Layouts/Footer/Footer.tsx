@@ -43,7 +43,7 @@ const Footer = () => {
                                 OUR LATEST OFFERS
                             </>
                         }
-                        classes="text-left font-bold text-[24px] leading-[30px] md:text-[40px] md:leading-[45px] font-[Integral_CF] max-w-[500px] md:max-w-[600px]"
+                        classes="text-left font-bold text-[24px] leading-[30px] md:text-[40px] md:leading-[45px] font-family[Integral_CF] max-w-[500px] md:max-w-[600px]"
                     />
                     <div className="flex flex-col gap-4 w-full md:w-[349px] md:ml-auto md:mr-[64px]">
                         <InputField

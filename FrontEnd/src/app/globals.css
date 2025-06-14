@@ -8,14 +8,15 @@
 }
 
 @font-face {
-  font-family: 'IntegralCF';
-  src: url('/font/FONTSPRINGDEMO-IntegralCFRegular.woff') format('woff');
+  font-family: 'Integral_CF';
+  src: url('/fonts/Fontspring-DEMO-integralcf-regular.otf') format('opentype');
 }
 
 /* Global styles */
 
 body {
   font-family: 'Satoshi', sans-serif;
+  /* font-family: 'Integral_CF', sans-serif; */
   margin: 0;
 }
 

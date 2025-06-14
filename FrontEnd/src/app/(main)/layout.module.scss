@@ -1,3 +1,15 @@
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Integral_CF';
+  src: url('/font/FONTSPRINGDEMO-IntegralCFRegular.woff') format('woff');
+}
+
 .mainLayout {
   min-height: 100vh;
   display: flex;

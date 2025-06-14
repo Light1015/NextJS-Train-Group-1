@@ -24,9 +24,15 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*": ["components/*"],
-      "@/constants/*": ["constants/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@/constants/*": [
+        "constants/*"
+      ]
     }
   },
   "include": [
