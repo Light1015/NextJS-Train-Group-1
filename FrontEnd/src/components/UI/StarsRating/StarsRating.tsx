@@ -17,7 +17,7 @@ function StarsRating({ rating, showRating = false }: StarsRatingProps) {
             {Array.from({ length: stars }).map((_, index) => (
                 <Image
                     key={index}
-                    src="/images/StarRate.svg"
+                    src="/images/StarRate.webp"
                     alt="star"
                     width={16}
                     height={16}
@@ -25,7 +25,7 @@ function StarsRating({ rating, showRating = false }: StarsRatingProps) {
             ))}
             {halfStar && (
                 <Image
-                    src="/images/halfstar.svg"
+                    src="/images/halfstar.webp"
                     alt="half star"
                     width={9}
                     height={9}

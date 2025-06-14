@@ -64,15 +64,15 @@ const Footer = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-6">
                     {/* Logo + mô tả + social */}
                     <div className="col-span-2 sm:col-span-2 lg:col-span-1">
-                        <Image src="/images/SHOP.CO.svg" alt="shop.co logo" width={167} height={23} />
+                        <Image src="/images/SHOP.CO.webp" alt="shop.co logo" width={167} height={23} />
                         <p className="text-sm mt-2">
                             We have clothes that suit your style and which you're proud to wear. From women to men.
                         </p>
                         <ul className="flex gap-3 mt-3">
-                            <Image src="/images/twitter.svg" alt="twitter" width={28} height={28} />
-                            <Image src="/images/facebook.svg" alt="facebook" width={28} height={28} />
-                            <Image src="/images/instagram.svg" alt="instagram" width={28} height={28} />
-                            <Image src="/images/github.svg" alt="github" width={28} height={28} />
+                            <Image src="/images/twitter.webp" alt="twitter" width={28} height={28} />
+                            <Image src="/images/facebook.webp" alt="facebook" width={28} height={28} />
+                            <Image src="/images/instagram.webp" alt="instagram" width={28} height={28} />
+                            <Image src="/images/github.webp" alt="github" width={28} height={28} />
                         </ul>
                     </div>
 
@@ -105,11 +105,11 @@ const Footer = () => {
             <div className="w-[90%] max-w-[1200px] mx-auto border-t border-gray-200 text-sm text-gray-500 py-6 flex flex-col items-center text-center md:flex-row md:justify-between md:text-left md:items-center gap-4">
                 <p>Shop.co © 2000-2023, All Rights Reserved</p>
                 <div className="flex gap-2 flex-wrap justify-center">
-                    <Image src="/images/visa.svg" alt="Visa" width={46.61} height={30.03} />
-                    <Image src="/images/mastercard.svg" alt="MasterCard" width={46.61} height={30.03} />
-                    <Image src="/images/paypal.svg" alt="PayPal" width={46.61} height={30.03} />
-                    <Image src="/images/applepay.svg" alt="ApplePay" width={46.61} height={30.03} />
-                    <Image src="/images/googlepay.svg" alt="GooglePay" width={46.61} height={30.03} />
+                    <Image src="/images/visa.webp" alt="Visa" width={46.61} height={30.03} />
+                    <Image src="/images/mastercard.webp" alt="MasterCard" width={46.61} height={30.03} />
+                    <Image src="/images/paypal.webp" alt="PayPal" width={46.61} height={30.03} />
+                    <Image src="/images/applepay.webp" alt="ApplePay" width={46.61} height={30.03} />
+                    <Image src="/images/googlepay.webp" alt="GooglePay" width={46.61} height={30.03} />
                 </div>
             </div>
 

@@ -11,7 +11,7 @@ export default function Newsletter() {
                 </h1>
                 <div className={styles.news_form}>
                     <div className={styles.input_container}>
-                        <Image src="/images/mail.svg" alt="mail" width={20} height={20} />
+                        <Image src="/images/mail.webp" alt="mail" width={20} height={20} />
                         <input type="text" placeholder="Enter your email address" />
                     </div>
                     <button className={styles.subscribe_button}>Subscribe to Newsletter</button>

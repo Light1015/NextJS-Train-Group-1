@@ -28,7 +28,7 @@ const Pagination: React.FC<PaginationProps> = ({
             disabled={currentPage === 1}
             className="w-[110px] h-9 rounded-md text-sm flex items-center justify-center border border-black/10 bg-white gap-1 hover:bg-black/5 disabled:opacity-50"
           >
-            <Image src="/images/arrow-left.svg" alt="Previous" width={20} height={20} />
+            <Image src="/images/arrow-left.webp" alt="Previous" width={20} height={20} />
             Previous
           </button>
         </div>
@@ -74,7 +74,7 @@ const Pagination: React.FC<PaginationProps> = ({
             className="w-[86px] h-9 rounded-md text-sm flex items-center justify-center border border-black/10 bg-white gap-1 hover:bg-black/5 disabled:opacity-50"
           >
             Next
-            <Image src="/images/arrow-right.svg" alt="Next" width={20} height={20} />
+            <Image src="/images/arrow-right.webp" alt="Next" width={20} height={20} />
           </button>
         </div>
       </div>

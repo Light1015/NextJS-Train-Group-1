@@ -18,7 +18,7 @@ const cartItems = [
         color: 'White',
         price: 145,
         quantity: 1,
-        image: '/images/products/Gradient-Graphic-T-shirt.svg',
+        image: '/images/products/Gradient-Graphic-T-shirt.webp',
     },
     {
         id: 2,
@@ -27,7 +27,7 @@ const cartItems = [
         color: 'Red',
         price: 180,
         quantity: 1,
-        image: '/images/products/CHECKERED-SHIRT.svg',
+        image: '/images/products/CHECKERED-SHIRT.webp',
     },
     {
         id: 3,
@@ -36,7 +36,7 @@ const cartItems = [
         color: 'Blue',
         price: 240,
         quantity: 1,
-        image: '/images/products/SKINNY-FIT-JEANS.svg',
+        image: '/images/products/SKINNY-FIT-JEANS.webp',
     },
 ];
 
