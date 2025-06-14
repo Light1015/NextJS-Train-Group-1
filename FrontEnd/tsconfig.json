@@ -24,15 +24,10 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@/constants/*": [
-        "constants/*"
-      ]    }
+      "@/*": ["./src/*"],
+      "@/components/*": ["components/*"],
+      "@/constants/*": ["constants/*"]
+    }
   },
   "include": [
     "next-env.d.ts",

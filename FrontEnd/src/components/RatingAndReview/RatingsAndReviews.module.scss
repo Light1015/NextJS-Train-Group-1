@@ -1,0 +1,128 @@
+.headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.reviewCount {
+    font-size: 16px;
+    color: #00000099;
+}
+
+.iconButton {
+    background-color: #f2f2f2; // nền xám nhạt
+    border: none; // bỏ viền
+    border-radius: 50%; // bo tròn
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.writeButton {
+    background-color: #000; // Nền đen
+    color: #fff; // Chữ trắng
+    border: none; // Không viền
+    padding: 10px 20px; // Kích thước
+    border-radius: 9999px; // Bo tròn hoàn toàn
+    font-size: 14px; // Kích cỡ chữ
+    font-weight: 500; // Độ đậm vừa phải
+    cursor: pointer; // Con trỏ dạng tay
+    transition: background-color 0.3s ease;
+}
+
+.dropdownButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: 500;
+    color: #000;
+}
+
+.arrowIcon {
+    margin-left: 4px;
+}
+
+.cardReview {
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    position: relative;
+    height: 100%;
+    border: 1px solid #ff00001a;
+
+    .starRow {
+        margin-bottom: 0.5rem;
+    }
+
+    .nameRow {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        h6 {
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .verifiedIcon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    .reviewText {
+        font-style: italic;
+        font-size: 0.95rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .postedDate {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    .moreIcon {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 20px;
+        height: 20px;
+        opacity: 0.6;
+        cursor: pointer;
+    }
+}
+
+.loadMoreBtn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
+    color: #000;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: #f8f9fa;
+        border-color: #ced4da;
+    }
+
+    &:focus {
+        background-color: #cec4c4;
+        outline: none;
+        box-shadow: none;
+    }
+}

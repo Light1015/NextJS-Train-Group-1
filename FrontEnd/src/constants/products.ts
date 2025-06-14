@@ -88,6 +88,7 @@ const products = [
   },
   {
     id: 12,
+    id: 12,
     name: "Sleeve Striped T-shirt",
     image: "/images/products/SLEEVE-STRIPED-T-SHIRT.webp",
     price: "$130",
@@ -97,12 +98,14 @@ const products = [
   },
   {
     id: 13,
+    id: 13,
     name: "T-shirt with Tape Details",
     image: "/images/products/T-SHIRT-WITH-TAPE-DETAILS.webp",
     price: "$120",
     rating: 4.5,
   },
   {
+    id: 14,
     id: 14,
     name: "Skinny Fit Jeans",
     image: "/images/products/SKINNY-FIT-JEANS.webp",
@@ -113,12 +116,14 @@ const products = [
   },
   {
     id: 15,
+    id: 15,
     name: "Checkered Shirt",
     image: "/images/products/CHECKERED-SHIRT.webp",
     price: "$180",
     rating: 4.5,
   },
   {
+    id: 16,
     id: 16,
     name: "Sleeve Striped T-shirt",
     image: "/images/products/SLEEVE-STRIPED-T-SHIRT.webp",
@@ -129,12 +134,14 @@ const products = [
   },
   {
     id: 17,
+    id: 17,
     name: "T-shirt with Tape Details",
     image: "/images/products/T-SHIRT-WITH-TAPE-DETAILS.webp",
     price: "$120",
     rating: 4.5,
   },
   {
+    id: 18,
     id: 18,
     name: "Skinny Fit Jeans",
     image: "/images/products/SKINNY-FIT-JEANS.webp",
@@ -145,12 +152,14 @@ const products = [
   },
   {
     id: 19,
+    id: 19,
     name: "Checkered Shirt",
     image: "/images/products/CHECKERED-SHIRT.webp",
     price: "$180",
     rating: 4.5,
   },
   {
+    id: 20,
     id: 20,
     name: "Sleeve Striped T-shirt",
     image: "/images/products/SLEEVE-STRIPED-T-SHIRT.webp",
@@ -161,12 +170,14 @@ const products = [
   },
   {
     id: 21,
+    id: 21,
     name: "T-shirt with Tape Details",
     image: "/images/products/T-SHIRT-WITH-TAPE-DETAILS.webp",
     price: "$120",
     rating: 4.5,
   },
   {
+    id: 22,
     id: 22,
     name: "Skinny Fit Jeans",
     image: "/images/products/SKINNY-FIT-JEANS.webp",
@@ -177,12 +188,14 @@ const products = [
   },
   {
     id: 23,
+    id: 23,
     name: "Checkered Shirt",
     image: "/images/products/CHECKERED-SHIRT.webp",
     price: "$180",
     rating: 4.5,
   },
   {
+    id: 24,
     id: 24,
     name: "Sleeve Striped T-shirt",
     image: "/images/products/SLEEVE-STRIPED-T-SHIRT.webp",
@@ -193,12 +206,14 @@ const products = [
   },
   {
     id: 25,
+    id: 25,
     name: "T-shirt with Tape Details",
     image: "/images/products/T-SHIRT-WITH-TAPE-DETAILS.webp",
     price: "$120",
     rating: 4.5,
   },
   {
+    id: 26,
     id: 26,
     name: "Skinny Fit Jeans",
     image: "/images/products/SKINNY-FIT-JEANS.webp",
@@ -209,12 +224,14 @@ const products = [
   },
   {
     id: 27,
+    id: 27,
     name: "Checkered Shirt",
     image: "/images/products/CHECKERED-SHIRT.webp",
     price: "$180",
     rating: 4.5,
   },
   {
+    id: 28,
     id: 28,
     name: "Sleeve Striped T-shirt",
     image: "/images/products/SLEEVE-STRIPED-T-SHIRT.webp",
@@ -225,12 +242,14 @@ const products = [
   },
   {
     id: 29,
+    id: 29,
     name: "T-shirt with Tape Details",
     image: "/images/products/T-SHIRT-WITH-TAPE-DETAILS.webp",
     price: "$120",
     rating: 4.5,
   },
   {
+    id: 30,
     id: 30,
     name: "Skinny Fit Jeans",
     image: "/images/products/SKINNY-FIT-JEANS.webp",
@@ -241,12 +260,14 @@ const products = [
   },
   {
     id: 31,
+    id: 31,
     name: "Checkered Shirt",
     image: "/images/products/CHECKERED-SHIRT.webp",
     price: "$180",
     rating: 4.5,
   },
   {
+    id: 32,
     id: 32,
     name: "Sleeve Striped T-shirt",
     image: "/images/products/SLEEVE-STRIPED-T-SHIRT.webp",

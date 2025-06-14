@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "rc-slider/assets/index.css";
 
 @font-face {
   font-family: 'Satoshi';
@@ -9,13 +8,9 @@
 }
 
 @font-face {
-  font-family: 'Integral CF';
-  src: url('/fonts/Fontspring-DEMO-integralcf-regular.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  font-family: 'IntegralCF';
+  src: url('/font/FONTSPRINGDEMO-IntegralCFRegular.woff') format('woff');
 }
-
 
 /* Global styles */
 
