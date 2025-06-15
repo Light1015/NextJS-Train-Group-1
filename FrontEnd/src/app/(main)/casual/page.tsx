@@ -40,7 +40,7 @@ export default function Casual() {
     return (
         <>
             {/* Main Container */}
-            <div className="container relative mx-auto px-6 md:px-5 flex gap-10">
+            <div className="container relative mx-auto py-4 px-6 md:px-5 flex gap-10">
                 {/* Sidebar - desktop */}
                 <div className="hidden md:block w-64">
                     <SidebarFilter

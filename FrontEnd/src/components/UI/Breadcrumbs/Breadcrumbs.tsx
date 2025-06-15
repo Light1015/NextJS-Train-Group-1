@@ -35,7 +35,7 @@ export default function Breadcrumbs() {
     });
 
     return (
-        <nav className="flex items-center">
+        <nav className="flex items-center pt-[10px] pb-[10px]">
             <Link
                 href="/"
                 className="text-[#666] hover:underline font-[400] text-[16px] leading-[100%] tracking-[0] font-[Satoshi]"

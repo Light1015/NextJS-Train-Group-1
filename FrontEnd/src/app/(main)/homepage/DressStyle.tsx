@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import * as motion from "framer-motion/client";
+import { motion } from "framer-motion";
 
 type DressStyleCardProps = {
     title: string;
