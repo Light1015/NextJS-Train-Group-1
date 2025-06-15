@@ -101,7 +101,7 @@ export default function Casual() {
                                     className="flex md:hidden items-center gap-1 bg-gray-100 cursor-pointer hover:bg-black hover:text-white text-gray-400 rounded-full py-2 px-2"
                                 >
                                     <Image
-                                        src="/images/filter.webp"
+                                        src="/images/filter.png"
                                         alt="filter icon"
                                         width={16}
                                         height={16}
