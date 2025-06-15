@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import StarsRating from "../StarsRating/StarsRating";
+import { Product } from "@/types/product.types";
 
 interface ProductProps {
     product: {
@@ -16,6 +17,7 @@ interface ProductProps {
         rating: number;
     };
 }
+
 
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
     return (

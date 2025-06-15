@@ -10,22 +10,27 @@ import styles from './layout.module.scss';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isHomePage = pathname === "/" || pathname === "/homepage";
   const [spinning, setSpinning] = useState(false);
 
   useEffect(() => {
     setSpinning(true);
-    const timeout = setTimeout(() => setSpinning(false), 500); // mô phỏng loading 500ms khi đổi route
+    const timeout = setTimeout(() => setSpinning(false), 500);
     return () => clearTimeout(timeout);
-  }, [pathname]); // mỗi khi đổi URL sẽ chạy useEffect
+  }, [pathname]);
 
   return (
     <div className={styles.wrapper}>
       <Header />
-      <section className="mt-[120px] px-[100px]">
-        <Breadcrumbs />
-      </section>
+      {isHomePage ? (
+        children
+      ) : (
+        <main className={styles.main}>
+          <Breadcrumbs />
+          {children}
+        </main>
+      )}
       <Loader spinning={spinning} fullScreen={true} />
-      <main className={styles.main}>{children}</main>
       <Footer />
     </div>
   );
