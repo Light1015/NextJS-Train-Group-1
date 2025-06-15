@@ -91,7 +91,7 @@ export default function Home() {
         <ProductListSec
           title="NEW ARRIVALS"
           data={newArrivalsData}
-          viewAllLink="/shop#new-arrivals"
+          viewAllLink="/casual"
         />
 
         <div className="max-w-frame mx-auto px-4 xl:px-0">
@@ -101,7 +101,7 @@ export default function Home() {
         <ProductListSec
           title="TOP SELLING"
           data={topSellingData}
-          viewAllLink="/shop#top-selling"
+          viewAllLink="/casual"
         />
 
         <div className="my-[50px] sm:my-20">

@@ -42,7 +42,7 @@ const HeaderHome = () => {
                         </p>
                         <div className="mb-8 md:mb-12 text-left">
                             <Link
-                                href="/shop"
+                                href="/casual"
                                 className="inline-block text-center bg-black hover:bg-black/80 transition-all text-white px-12 md:px-14 py-3 md:py-4 rounded-full hover:animate-pulse w-full md:w-auto max-w-[358px] md:max-w-none"
                             >
                                 Shop Now

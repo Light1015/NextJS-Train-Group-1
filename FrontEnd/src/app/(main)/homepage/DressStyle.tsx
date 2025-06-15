@@ -48,7 +48,7 @@ const DressStyle = () => {
                 >
                     <DressStyleCard
                         title="Casual"
-                        url="/shop#casual"
+                        url="/casual"
                         className="md:max-w-[260px] lg:max-w-[360px] xl:max-w-[407px] h-[190px] bg-[url('/images/dress-style-1.png')]"
                     />
                     <DressStyleCard

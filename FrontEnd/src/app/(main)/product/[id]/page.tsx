@@ -36,9 +36,9 @@ const ProductDetails = () => {
 
         for (let i = 0; i < 5; i++) {
             if (i < fullStars) {
-                stars.push(<img key={i} src="/images/StarRate.svg" alt="star" className={styles.star} />);
+                stars.push(<img key={i} src="/images/StarRate.png" alt="star" className={styles.star} />);
             } else if (i === fullStars && hasHalfStar) {
-                stars.push(<img key={i} src="/images/halfstar.svg" alt="half star" className={styles.star} />);
+                stars.push(<img key={i} src="/images/halfstar.png" alt="half star" className={styles.star} />);
             }
         }
         return stars;

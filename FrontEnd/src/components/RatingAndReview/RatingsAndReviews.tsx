@@ -27,7 +27,7 @@ const RatingsAndReviews = () => {
                     <button className={styles.dropdownButton}>
                         Latest
                         <Image
-                            src="/images/dropdown.webp"
+                            src="/images/dropdown.png"
                             alt="Dropdown arrow"
                             width={12}
                             height={12}
