@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import styles from './productDetail.module.scss';
+import styles from './ProductDetail.module.scss';
 import Button from "@/components/UI/Button/Button";
 import products from "@/constants/products";
 import ProductDetail from '@/components/ProductDetail/ProductDetails';
