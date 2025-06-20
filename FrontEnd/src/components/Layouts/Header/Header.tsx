@@ -9,11 +9,37 @@ import { IoClose, IoChevronDownSharp } from 'react-icons/io5';
 import InputField from '@/components/UI/InputField/InputField';
 import { FiShoppingCart } from 'react-icons/fi';
 import { PiUserCircleBold } from 'react-icons/pi';
+import Dropdown from "@/components/UI/Dropdown/Dropdown";
 
 function Header() {
     const [showMenu, setShowMenu] = useState(false);
     const [showBanner, setShowBanner] = useState(true);
     const links = ['Shop', 'On Sale', 'New Arrivals', 'Brands'];
+
+    // Dropdown items với 4 mục để hiển thị 2x2 grid
+    const dropdownItems = [
+        {
+            label: "Casual",
+            description: "In attractive and spectacular colors and designs",
+            onClick: () => window.location.href = "/casual"
+        },
+        {
+            label: "Formal",
+            description: "Ladies, your style and tastes are important to us",
+            onClick: () => window.location.href = "/formal"
+        },
+        {
+            label: "Party",
+            description: "For all ages, with happy and beautiful colors",
+            onClick: () => window.location.href = "/party"
+        },
+        {
+            label: "Gym",
+            description: "Suitable for men, women and all tastes and styles",
+            onClick: () => window.location.href = "/gym"
+        },
+    ];
+
 
     return (
         <>
@@ -31,15 +57,15 @@ function Header() {
                     >
                         <IoClose />
                     </button>
-
                 </div>
             )}
 
             {/* Header Navigation */}
-            <div className={`w-full h-16 fixed z-9999 bg-white transition-all duration-300 ${showBanner ? 'top-[38px]' : 'top-0'}`}>
-                <nav className="flex items-center justify-between h-full px-[20px] lg:px-[100px] gap-[20px] lg:gap-[40px]">
+            <div className={`w-full h-16 fixed z-[999] bg-white transition-all duration-300 ${showBanner ? 'top-[38px]' : 'top-0'} border-b border-gray-200`}>
+                <nav className="flex items-center justify-between h-full pl-[120px] pr-[20px] gap-[30px]">
+
                     {/* Logo & Menu */}
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex items-center gap-4 shrink-0">
                         <button
                             className="block md:hidden cursor-pointer"
                             onClick={() => setShowMenu(!showMenu)}
@@ -47,54 +73,86 @@ function Header() {
                             <MdMenu size={26} />
                         </button>
                         <Link href="/homepage" passHref>
-                            <Image src="/images/SHOP.CO.png" alt="shop.co logo" width={160} height={22} />
+                            <Image src="/images/SHOP.CO.png" alt="SHOP.CO" width={160} height={22} className="font-bold" />
                         </Link>
                     </div>
 
-                    {/* Nav Links */}
-                    <div
-                        className={`absolute md:static top-16 left-0 w-full md:w-fit h-screen md:h-auto z-50 flex-col md:flex-row bg-white md:flex items-center ${showMenu ? 'flex' : 'hidden'
-                            } gap-[24px]`}
-                    >
-                        {links.map((link, index) => (
-                            <Link
-                                key={link}
-                                href={`/casual/${link}`}
-                                onClick={() => setShowMenu(false)}
-                                className="flex items-center gap-1 hover:text-gray-600 capitalize"
-                            >
-                                <span>{link}</span>
-                                {index === 0 && <IoChevronDownSharp size={16} />}
-                            </Link>
-                        ))}
+                    {/* Nav Links - Desktop */}
+                    <div className="hidden md:flex items-center gap-12">
+                        {links.map((link, index) =>
+                            index === 0 ? (
+                                <Dropdown
+                                    key="dropdown-menu"
+                                    title={link}
+                                    items={dropdownItems}
+                                    buttonClassName="text-black hover:text-gray-600 font-normal"
+                                />
+                            ) : (
+                                <Link
+                                    key={link}
+                                    href={`/${link.toLowerCase().replace(' ', '-')}`}
+                                    className="text-black hover:text-gray-600 font-normal"
+                                >
+                                    {link}
+                                </Link>
+                            )
+                        )}
                     </div>
 
-
-                    {/* Search (Desktop only) */}
-                    <div className="hidden lg:flex shrink-0">
-                        <InputField
-                            icon={<MdSearch size={24} color="gray" />}
-                            classes="w-[577px] h-[48px] px-[16px] py-[12px] gap-[12px] rounded-[62px] border border-gray-300"
-                        />
+                    {/* Search Bar - Desktop */}
+                    <div className="hidden lg:flex flex-1 max-w-[577px] mx-12">
+                        <div className="relative w-full">
+                            <MdSearch size={20} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder="Search for products..."
+                                className="w-full h-12 pl-12 pr-4 rounded-full border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-sm"
+                            />
+                        </div>
                     </div>
 
-                    {/* Right icons: Search (Mobile), Cart, User */}
-                    <div className="flex items-center space-x-4 shrink-0">
+                    {/* Right Icons */}
+                    <div className="flex items-center gap-6 shrink-0 mr-[100px]">
+
                         {/* Mobile Search Icon */}
                         <button className="block lg:hidden">
-                            <MdSearch size={24} className="text-gray-700" />
+                            <MdSearch size={24} className="text-black" />
                         </button>
 
-                        <Link href="/cart/">
-                            <FiShoppingCart className="text-xl cursor-pointer hover:text-gray-600" />
+                        <Link href="/cart" className="relative">
+                            <FiShoppingCart size={24} className="text-black hover:text-gray-600" />
                         </Link>
-                        <PiUserCircleBold className="text-xl cursor-pointer hover:text-gray-600" />
+
+                        <button>
+                            <PiUserCircleBold size={24} className="text-black hover:text-gray-600" />
+                        </button>
                     </div>
                 </nav>
 
-                {/* Bottom Line */}
-                <div className="mt-0 w-full max-w-[1240px] h-px border border-[#0000001A] mx-auto" />
-
+                {/* Mobile Menu */}
+                <div className={`md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 z-50 ${showMenu ? 'block' : 'hidden'}`}>
+                    <div className="flex flex-col py-4 px-6 space-y-4">
+                        {links.map((link, index) =>
+                            index === 0 ? (
+                                <Dropdown
+                                    key="mobile-dropdown-menu"
+                                    title={link}
+                                    items={dropdownItems}
+                                    buttonClassName="text-black hover:text-gray-600 font-normal text-left justify-start"
+                                />
+                            ) : (
+                                <Link
+                                    key={link}
+                                    href={`/${link.toLowerCase().replace(' ', '-')}`}
+                                    onClick={() => setShowMenu(false)}
+                                    className="text-black hover:text-gray-600 font-normal py-2"
+                                >
+                                    {link}
+                                </Link>
+                            )
+                        )}
+                    </div>
+                </div>
             </div>
         </>
     );
