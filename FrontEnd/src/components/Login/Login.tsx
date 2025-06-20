@@ -6,9 +6,10 @@ import { FaUser, FaEye } from 'react-icons/fa';
 
 interface LoginPopupProps {
     onClose: () => void;
+    onSwitchToRegister: () => void;
 }
 
-const LoginPopup = ({ onClose }: LoginPopupProps) => {
+const LoginPopup = ({ onClose, onSwitchToRegister }: LoginPopupProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const popupRef = useRef<HTMLDivElement>(null);
@@ -95,7 +96,10 @@ const LoginPopup = ({ onClose }: LoginPopupProps) => {
                 </div>
 
                 <p className="text-center text-sm mt-4 text-gray-600">
-                    Don’t have an account? <a href="#" className="text-black hover:underline">Sign up</a>
+                    Don’t have an account?{' '}
+                    <button onClick={onSwitchToRegister} className="text-black hover:underline">
+                        Sign up
+                    </button>
                 </p>
             </div>
         </div>

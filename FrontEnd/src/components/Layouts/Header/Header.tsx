@@ -7,13 +7,15 @@ import { MdMenu, MdSearch } from 'react-icons/md';
 import { IoClose, IoChevronDownSharp } from 'react-icons/io5';
 import { FiShoppingCart } from 'react-icons/fi';
 import { PiUserCircleBold } from 'react-icons/pi';
-import LoginPopup from '@/components/Login/login';
+import LoginPopup from '@/components/Login/Login';
+import RegisterPopup from '@/components/RegisterPopup/RegisterPopup';
 import InputField from '@/components/UI/InputField/InputField';
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showBanner, setShowBanner] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const links = ['Shop', 'On Sale', 'New Arrivals', 'Brands'];
 
   return (
@@ -27,7 +29,7 @@ const Header = () => {
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                setShowLogin(true);
+                setShowRegister(true);
               }}
               className="underline ml-1"
             >
@@ -36,7 +38,7 @@ const Header = () => {
           </p>
           <button
             className="absolute top-1/2 -translate-y-1/2 text-white text-lg hidden md:block right-[100px]"
-            onClick={() => setShowBanner(false)}
+            onClick={() => setShowRegister(false)}
             aria-label="Close banner"
           >
             <IoClose />
@@ -46,9 +48,8 @@ const Header = () => {
 
       {/* Header */}
       <header
-        className={`w-full h-16 fixed z-[999] bg-white transition-all duration-300 ${
-          showBanner ? 'top-[38px]' : 'top-0'
-        }`}
+        className={`w-full h-16 fixed z-[999] bg-white transition-all duration-300 ${showBanner ? 'top-[38px]' : 'top-0'
+          }`}
       >
         <nav className="flex items-center justify-between h-full px-[20px] lg:px-[100px] gap-[20px] lg:gap-[40px]">
           {/* Logo & Burger Menu */}
@@ -63,9 +64,8 @@ const Header = () => {
 
           {/* Nav Links */}
           <div
-            className={`absolute md:static top-16 left-0 w-full md:w-fit h-screen md:h-auto z-50 flex-col md:flex-row bg-white md:flex items-center ${
-              showMenu ? 'flex' : 'hidden'
-            } gap-[24px]`}
+            className={`absolute md:static top-16 left-0 w-full md:w-fit h-screen md:h-auto z-50 flex-col md:flex-row bg-white md:flex items-center ${showMenu ? 'flex' : 'hidden'
+              } gap-[24px]`}
           >
             {links.map((link, index) => (
               <Link
@@ -109,7 +109,26 @@ const Header = () => {
       </header>
 
       {/* Login Popup */}
-      {showLogin && <LoginPopup onClose={() => setShowLogin(false)} />}
+      {showLogin && (
+        <LoginPopup
+          onClose={() => setShowLogin(false)}
+          onSwitchToRegister={() => {
+            setShowLogin(false);
+            setShowRegister(true);
+          }}
+        />
+      )}
+
+      {showRegister && (
+        <RegisterPopup
+          onClose={() => setShowRegister(false)}
+          onSwitchToLogin={() => {
+            setShowRegister(false);
+            setShowLogin(true);
+          }}
+        />
+      )}
+
     </>
   );
 };
