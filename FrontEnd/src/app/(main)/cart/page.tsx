@@ -4,72 +4,26 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { FaArrowRight } from 'react-icons/fa';
-
+import { useCart } from '@/context/CartContext';
 import Title from "@/components/UI/Title/Title";
 import QuantityCounter from "@/components/UI/QuantityCounter/QuantityCounter";
 import InputField from "@/components/UI/InputField/InputField";
 import Button from "@/components/UI/Button/Button";
 
-const cartItems = [
-    {
-        id: 1,
-        name: 'Gradient Graphic T-shirt',
-        size: 'Large',
-        color: 'White',
-        price: 145,
-        quantity: 1,
-        image: '/images/products/Gradient-Graphic-T-shirt.webp',
-    },
-    {
-        id: 2,
-        name: 'Checkered Shirt',
-        size: 'Medium',
-        color: 'Red',
-        price: 180,
-        quantity: 1,
-        image: '/images/products/CHECKERED-SHIRT.webp',
-    },
-    {
-        id: 3,
-        name: 'Skinny Fit Jeans',
-        size: 'Large',
-        color: 'Blue',
-        price: 240,
-        quantity: 1,
-        image: '/images/products/SKINNY-FIT-JEANS.webp',
-    },
-];
-
 function Cart() {
-    const [items, setItems] = useState(cartItems);
-
+    const { items, updateQuantity, removeItem } = useCart();
     const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const discount = subtotal * 0.2;
     const deliveryFee = 15;
     const total = subtotal - discount + deliveryFee;
-
-    const updateQuantity = (id: number, amount: number) => {
-        setItems((prev) =>
-            prev.map((item) =>
-                item.id === id
-                    ? { ...item, quantity: Math.max(1, item.quantity + amount) }
-                    : item
-            )
-        );
-    };
-
-    const removeItem = (id: number) => {
-        setItems((prev) => prev.filter((item) => item.id !== id));
-    };
-
     return (
         <div className="p- container mx-auto">
             <Title title="your cart" classes="text-left mb-5" />
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 relative">
                 <div className="lg:col-span-3 space-y-4 border p-3 border-gray-200 rounded-lg">
-                    {items.map((item) => (
+                    {items.map((item, index) => (
                         <div
-                            key={item.id}
+                            key={`${item.id}-${item.size}-${item.color}-${index}`}
                             className="flex gap-4 border-b border-gray-200 py-4 items-start"
                         >
                             {/* Image */}
@@ -91,7 +45,7 @@ function Cart() {
                                         {item.name}
                                     </h3>
                                     <button
-                                        onClick={() => removeItem(item.id)}
+                                        onClick={() => removeItem(item.id, item.size, item.color)}
                                         className="text-[#FF3333] cursor-pointer"
                                     >
                                         <FaRegTrashCan size={18} />
@@ -111,8 +65,8 @@ function Cart() {
                                     <span className="font-bold text-base">${item.price}</span>
                                     <QuantityCounter
                                         currentQuantity={item.quantity}
-                                        onDecrement={() => updateQuantity(item.id, -1)}
-                                        onIncrement={() => updateQuantity(item.id, 1)}
+                                        onDecrement={() => updateQuantity(item.id, item.size, item.color, -1)}
+                                        onIncrement={() => updateQuantity(item.id, item.size, item.color, 1)}
                                     />
                                 </div>
                             </div>

@@ -4,6 +4,8 @@ import React from "react";
 
 interface ColorsListProps {
     colors: string[];
+    selectedColor: string;
+    setSelectedColor: (color: string) => void;
 }
 
 function darkenColor(color: string, percent: number) {
@@ -39,11 +41,9 @@ function rgbToHex(rgb: string) {
             .join("")
     );
 }
-function ColorsList({ colors }: ColorsListProps) {
-    const [selectedColor, setSelectedColor] = React.useState(colors[0]);
-
+function ColorsList({ colors, selectedColor, setSelectedColor }: ColorsListProps) {
     return (
-        <div className="grid grid-cols-5 gap-2 mt-2 pb-4">
+        <div className="flex flex-wrap gap-[1rem] mt-2 pb-4">
             {colors.map((color) => {
                 const isSelected = selectedColor === color;
 
@@ -51,14 +51,14 @@ function ColorsList({ colors }: ColorsListProps) {
                 if (isSelected) {
                     borderStyle = "1px solid black";
                 } else if (color.toLowerCase() === "white") {
-                    borderStyle = "1.5px solid #ccc"; // nhẹ nhàng, giúp thấy màu trắng
+                    borderStyle = "1.5px solid #ccc";
                 }
 
                 return (
                     <button
                         key={color}
                         onClick={() => setSelectedColor(color)}
-                        className={`w-6 h-6 rounded-full transition-all duration-300 outline-none ring-offset-2 relative flex items-center justify-center`}
+                        className="w-6 h-6 rounded-full transition-all duration-300 outline-none ring-offset-2 relative flex items-center justify-center"
                         style={{
                             backgroundColor: color,
                             border: borderStyle,
@@ -79,7 +79,5 @@ function ColorsList({ colors }: ColorsListProps) {
         </div>
     );
 }
-
-
 
 export default ColorsList;

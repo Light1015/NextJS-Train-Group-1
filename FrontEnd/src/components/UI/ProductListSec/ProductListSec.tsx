@@ -61,9 +61,9 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
                                     id: product.id,
                                     name: product.title,
                                     image: product.srcUrl,
-                                    price: `$${product.price}`,
+                                    price: product.price, // 👈 giữ nguyên kiểu number
                                     oldPrice: product.discount.percentage > 0
-                                        ? `$${Math.round(product.price / (1 - product.discount.percentage / 100))}`
+                                        ? Math.round(product.price / (1 - product.discount.percentage / 100))
                                         : undefined,
                                     discount:
                                         product.discount.percentage > 0
@@ -99,9 +99,9 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
                                 id: product.id,
                                 name: product.title,
                                 image: product.srcUrl,
-                                price: `$${product.price}`,
+                                price: product.price, // 👈 giữ nguyên kiểu number
                                 oldPrice: product.discount.percentage > 0
-                                    ? `$${Math.round(product.price / (1 - product.discount.percentage / 100))}`
+                                    ? Math.round(product.price / (1 - product.discount.percentage / 100))
                                     : undefined,
                                 discount:
                                     product.discount.percentage > 0
