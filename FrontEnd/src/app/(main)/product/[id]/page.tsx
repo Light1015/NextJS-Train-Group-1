@@ -9,6 +9,10 @@ import RatingsAndReviews from '@/components/RatingAndReview/RatingsAndReviews';
 import FAQs from '@/components/Faqs/FAQs';
 import Product from "@/components/Product/Product";
 import { useParams } from 'next/navigation';
+import { useCart } from "@/context/CartContext";
+import ColorsList from "@/components/UI/ColorsList/ColorsList";
+import SizeButton from "@/components/UI/SizeButton/SizeButton";
+import Swal from 'sweetalert2';
 
 const ProductDetails = () => {
 
@@ -58,6 +62,40 @@ const ProductDetails = () => {
                 return null;
         }
     };
+
+    const { addToCart } = useCart(); // trong component
+
+    const handleAddToCart = () => {
+        if (!selectedColor) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Please select a color!',
+                showConfirmButton: false,
+                timer: 1200
+            });
+            return;
+        }
+
+        addToCart({
+            id: product.id,
+            name: product.name,
+            size: selectedSize,
+            color: selectedColor,
+            price: Number(product.price),
+            quantity,
+            image: product.image,
+        });
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Added to cart!',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
     return (
         <>
             <div className={styles.productDetail}>
@@ -80,13 +118,13 @@ const ProductDetails = () => {
                     </div>
 
                     <div className={styles.price}>
-                        <span className={styles.current}>{product.price}</span>
+                        <span className={styles.current}>${product.price}</span>
                         {product.oldPrice !== undefined && product.oldPrice !== null && (
                             <span className={styles.old}>${product.oldPrice}</span>
                         )}
 
                         {product.discount !== undefined && product.discount !== null && (
-                            <span className={styles.discount}>-{product.discount}%</span>
+                            <span className={styles.discount}>-{product.discount}</span>
                         )}
                     </div>
 
@@ -96,51 +134,22 @@ const ProductDetails = () => {
 
                     <div className={styles.section}>
                         <h4>Selected Colors</h4>
-                        <div className={styles.colors}>
-                            <button
-                                className={selectedColor === 'color1' ? styles.active : ''}
-                                onClick={() => setSelectedColor('color1')}
-                                style={{ background: '#4F4631' }}
-                            >
-                                {selectedColor === 'color1' && (
-                                    <img src="/images/tick.png" alt="Selected" className={styles.tick} />
-                                )}
-                            </button>
-                            <button
-                                className={selectedColor === 'color2' ? styles.active : ''}
-                                onClick={() => setSelectedColor('color2')}
-                                style={{ background: '#314F4A' }}
-                            >
-                                {selectedColor === 'color2' && (
-                                    <img src="/images/tick.png" alt="Selected" className={styles.tick} />
-                                )}
-                            </button>
-                            <button
-                                className={selectedColor === 'color3' ? styles.active : ''}
-                                onClick={() => setSelectedColor('color3')}
-                                style={{ background: '#31344F' }}
-                            >
-                                {selectedColor === 'color3' && (
-                                    <img src="/images/tick.png" alt="Selected" className={styles.tick} />
-                                )}
-                            </button>
-                        </div>
+                        <ColorsList
+                            colors={product.color || product.colors}
+                            selectedColor={selectedColor}
+                            setSelectedColor={setSelectedColor}
+                        />
+
                     </div>
+
 
                     <div className={styles.section}>
                         <h4>Choose Size</h4>
-                        <div className={styles.sizes}>
-                            {['Small', 'Medium', 'Large', 'X-Large'].map((size) => (
-                                <button
-                                    key={size}
-                                    className={selectedSize === size ? styles.active : ''}
-                                    onClick={() => setSelectedSize(size)}
-                                >
-                                    {size}
-                                </button>
-                            ))}
-                        </div>
+                        <SizeButton
+                            sizes={product.size}
+                        />
                     </div>
+
 
                     <div className={styles.actions}>
                         <div className={styles.quantity}>
@@ -149,10 +158,12 @@ const ProductDetails = () => {
                             <button onClick={() => handleQuantity('inc')}>+</button>
                         </div>
                         {/* <Button className={styles.cartButton}>Add to Cart</Button> */}
-                         <Button
+                        <Button
                             title="Add to Cart"
                             classes="bg-black text-white w-full md:w-fit"
+                            handleClick={handleAddToCart}
                         />
+
                     </div>
                 </div>
             </div>

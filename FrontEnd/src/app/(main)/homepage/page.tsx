@@ -11,12 +11,29 @@ import reviews from '@/constants/reviews';
 import products from "@/constants/products";
 
 // Tạo danh sách sản phẩm theo định dạng ProductListSec cần
-const newArrivalsData = products.slice(0, 4).map((p) => ({
+const newArrivalsData = products.slice(0, 4).map((p) => {
+  const priceNumber = typeof p.price === "string" ? parseFloat(p.price.replace("$", "")) : p.price;
+
+  return {
+    id: p.id,
+    title: p.name,
+    srcUrl: p.image,
+    gallery: [p.image],
+    price: priceNumber,
+    discount: {
+      amount: 0,
+      percentage: p.discount ? parseInt(p.discount.replace("%", "")) : 0,
+    },
+    rating: p.rating,
+  };
+});
+
+const topSellingData = products.slice(4, 8).map((p) => ({
   id: p.id,
   title: p.name,
   srcUrl: p.image,
   gallery: [p.image],
-  price: parseFloat(p.price.replace("$", "")),
+  price: typeof p.price === "string" ? parseFloat(p.price.replace("$", "")) : p.price,
   discount: {
     amount: 0,
     percentage: p.discount ? parseInt(p.discount.replace("%", "")) : 0,
@@ -24,18 +41,6 @@ const newArrivalsData = products.slice(0, 4).map((p) => ({
   rating: p.rating,
 }));
 
-const topSellingData = products.slice(4, 8).map((p) => ({
-  id: p.id,
-  title: p.name,
-  srcUrl: p.image,
-  gallery: [p.image],
-  price: parseFloat(p.price.replace("$", "")),
-  discount: {
-    amount: 0,
-    percentage: p.discount ? parseInt(p.discount.replace("%", "")) : 0,
-  },
-  rating: p.rating,
-}));
 
 // export const reviewsData: Review[] = [
 //   {
