@@ -21,6 +21,8 @@ source .venv/bin/activate
 python -m venv venv
 .\venv\Scripts\activate
 ```
+python manage.py makemigrations
+python manage.py migrate
 
 ### Install python requirements
 

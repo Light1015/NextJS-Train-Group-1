@@ -16,31 +16,32 @@ export default function Home() {
    if (loading) {
     return <p className="text-center mt-10">Đang tải sản phẩm...</p>;
   }
-  const newArrivalsData = products.slice(0, 4).map((p) => ({
-      id: p.id,
-      title: p.name,
-      srcUrl: p.image ?? "",
-      gallery: [p.image ?? ""],
-      price: parseFloat(p.price),
-      discount: {
-        amount: 0,
-        percentage: p.discount ? parseInt((p.discount ?? "").replace("%", "")) : 0,
-      },
-      rating: p.rating,
-    }));
+   const formatProduct = (p: any) => {
+    const discountStr = p.discount || ""; 
+    const percentage = discountStr.includes("%")
+      ? parseInt(discountStr.replace("%", ""))
+      : 0;
 
-  const topSellingData = products.slice(4, 8).map((p) => ({
+    return {
       id: p.id,
+      name: p.name,
+      image: p.image ?? "",
+      color: p.color ?? "",
+      size: p.size ?? "",
       title: p.name,
       srcUrl: p.image ?? "",
       gallery: [p.image ?? ""],
       price: parseFloat(p.price),
-      discount: {
-        amount: 0,
-        percentage: p.discount ? parseInt((p.discount ?? "").replace("%", "")) : 0,
-      },
-      rating: p.rating,
-    }));
+      oldPrice: p.old_price ? parseFloat(p.old_price) : undefined,
+      discount: percentage > 0 ? `${percentage}%` : undefined,
+      rating: parseFloat(p.rating),
+      colors: Array.isArray(p.colors) ? p.colors : [],
+      sizes: Array.isArray(p.sizes) ? p.sizes : [],
+    };
+  };
+
+  const newArrivalsData = products.slice(0, 4).map(formatProduct);
+  const topSellingData = products.slice(4, 8).map(formatProduct);
   return (
     <div>
       <HeaderHome />

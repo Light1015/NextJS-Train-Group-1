@@ -3,9 +3,9 @@
 import React from "react";
 
 interface ColorsListProps {
-    colors: string[];
-    selectedColor: string;
-    setSelectedColor: (color: string) => void;
+  colors: string[];
+  selectedColor: string;
+  setSelectedColor: (color: string) => void;
 }
 
 function darkenColor(color: string, percent: number) {
