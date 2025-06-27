@@ -18,6 +18,7 @@ export default function Casual() {
 
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
 
@@ -31,15 +32,22 @@ export default function Casual() {
   }, []);
 
   const filteredProducts = products.filter((product) => {
+    const matchCategory = selectedCategory
+      ? product.category.name.toLowerCase() === selectedCategory.toLowerCase()
+      : true;
+
     const matchColor = selectedColor
-      ? product.colors?.some((c) => c.name === selectedColor)
+      ? product.colors?.some((c) => c.name?.toLowerCase() === selectedColor.toLowerCase())
       : true;
+
     const matchSize = selectedSize
-      ? product.sizes?.some((s) => s.name === selectedSize)
+      ? product.sizes?.some((s) => s.name?.toLowerCase() === selectedSize.toLowerCase())
       : true;
+
     const matchPrice =
       Number(product.price) >= minPrice && Number(product.price) <= maxPrice;
-    return matchColor && matchSize && matchPrice;
+
+    return matchCategory && matchColor && matchSize && matchPrice;
   });
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -73,11 +81,14 @@ export default function Casual() {
           maxPrice={maxPrice}
           setMinPrice={setMinPrice}
           setMaxPrice={setMaxPrice}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
           handleApplyFilter={() => {
             setCurrentPage(1);
             setShowSideBar(false);
           }}
         />
+
       </div>
 
       {/* Main Content */}
@@ -150,11 +161,14 @@ export default function Casual() {
               maxPrice={maxPrice}
               setMinPrice={setMinPrice}
               setMaxPrice={setMaxPrice}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
               handleApplyFilter={() => {
                 setCurrentPage(1);
                 setShowSideBar(false);
               }}
             />
+
           </div>
         </div>
       )}

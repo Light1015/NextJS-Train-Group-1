@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 export interface ProductItem {
+  category: {
+    id: number;
+    name: string;
+  };
   title: string
   id: number
   name: string

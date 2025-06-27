@@ -13,4 +13,5 @@ export type Product = {
   rating: number;
   colors: { id: number; name: string }[];
   sizes: { id: number; name: string }[];
+  category: { id: number; name: string };
 };
