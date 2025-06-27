@@ -1,134 +1,159 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { MdMenu, MdSearch } from 'react-icons/md';
-import { IoClose, IoChevronDownSharp } from 'react-icons/io5';
+import { IoClose } from 'react-icons/io5';
 import { FiShoppingCart } from 'react-icons/fi';
 import { PiUserCircleBold } from 'react-icons/pi';
+
+import Dropdown from '@/components/UI/Dropdown/Dropdown';
 import LoginPopup from '@/components/Login/Login';
 import RegisterPopup from '@/components/RegisterPopup/RegisterPopup';
 import InputField from '@/components/UI/InputField/InputField';
+import { useProducts } from '@/hooks/useProducts';
+import { Product } from "@/types/product.types";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showBanner, setShowBanner] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const router = useRouter();
+
+  const { products = [] } = useProducts();
+
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setFilteredProducts([]);
+    } else {
+      const filtered = products
+        .filter(product =>
+          product.name.toLowerCase().startsWith(searchTerm.toLowerCase()) && product.image !== null
+        )
+        .map(product => ({
+          ...product,
+          image: product.image as string,
+          price: typeof product.price === 'string' ? Number(product.price) : product.price,
+          old_price: product.old_price !== undefined && typeof product.old_price === 'string'
+            ? Number(product.old_price)
+            : product.old_price
+        }));
+      setFilteredProducts(filtered);
+    }
+  }, [searchTerm, products]);
+
   const links = ['Shop', 'On Sale', 'New Arrivals', 'Brands'];
+  const dropdownItems = [
+    { label: 'Casual', description: 'Casual wear', onClick: () => router.push('/casual') },
+    { label: 'Formal', description: 'Formal outfits', onClick: () => router.push('/formal') },
+    { label: 'Party', description: 'Party style', onClick: () => router.push('/party') },
+    { label: 'Gym', description: 'Gym gear', onClick: () => router.push('/gym') },
+  ];
 
   return (
     <>
-      {/* Top Banner */}
       {showBanner && (
-        <div className="fixed top-0 left-0 w-full h-[38px] bg-black text-white flex justify-center items-center text-xs sm:text-sm z-[1000] px-4">
-          <p className="whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="fixed top-0 left-0 w-full h-10 bg-black text-white flex justify-center items-center text-sm z-[1000] px-4">
+          <p>
             Sign up and get 20% off your first order.
-            <Link
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setShowRegister(true);
-              }}
-              className="underline ml-1"
-            >
+            <Link href="#" onClick={(e) => { e.preventDefault(); setShowRegister(true); }} className="underline ml-1">
               Sign Up Now
             </Link>
           </p>
-          <button
-            className="absolute top-1/2 -translate-y-1/2 text-white text-lg hidden md:block right-[100px]"
-            onClick={() => setShowRegister(false)}
-            aria-label="Close banner"
-          >
+          <button className="absolute top-1/2 -translate-y-1/2 right-24 text-white hidden md:block" onClick={() => setShowBanner(false)}>
             <IoClose />
           </button>
         </div>
       )}
 
-      {/* Header */}
-      <header
-        className={`w-full h-16 fixed z-[999] bg-white transition-all duration-300 ${showBanner ? 'top-[38px]' : 'top-0'
-          }`}
-      >
-        <nav className="flex items-center justify-between h-full px-[20px] lg:px-[100px] gap-[20px] lg:gap-[40px]">
-          {/* Logo & Burger Menu */}
-          <div className="flex items-center gap-2 shrink-0">
-            <button className="block md:hidden" onClick={() => setShowMenu(!showMenu)}>
+      <header className={`w-full h-16 fixed z-[999] bg-white transition-all duration-300 ${showBanner ? 'top-10' : 'top-0'}`}>
+        <nav className="flex items-center justify-between h-full px-5 lg:px-24 gap-5">
+          <div className="flex items-center gap-2">
+            <button className="md:hidden" onClick={() => setShowMenu(!showMenu)}>
               <MdMenu size={26} />
             </button>
             <Link href="/homepage">
-              <Image src="/images/SHOP.CO.png" alt="Shop.co Logo" width={160} height={22} />
+              <Image src="/images/SHOP.CO.png" alt="Logo" width={160} height={22} />
             </Link>
           </div>
 
-          {/* Nav Links */}
-          <div
-            className={`absolute md:static top-16 left-0 w-full md:w-fit h-screen md:h-auto z-50 flex-col md:flex-row bg-white md:flex items-center ${showMenu ? 'flex' : 'hidden'
-              } gap-[24px]`}
-          >
-            {links.map((link, index) => (
-              <Link
-                key={link}
-                href={`/casual/${link}`}
-                onClick={() => setShowMenu(false)}
-                className="flex items-center gap-1 hover:text-gray-600 capitalize"
-              >
-                <span>{link}</span>
-                {index === 0 && <IoChevronDownSharp size={16} />}
-              </Link>
-            ))}
+          <div className={`absolute md:static top-16 left-0 w-full md:w-auto h-screen md:h-auto z-50 flex-col md:flex-row bg-white md:flex items-center ${showMenu ? 'flex' : 'hidden'} gap-6`}>
+            {links.map((link, index) =>
+              index === 0 ? (
+                <Dropdown key="dropdown" title={link} items={dropdownItems} buttonClassName="text-black hover:text-gray-600 font-normal" />
+              ) : (
+                <Link key={link} href={`/${link.toLowerCase().replace(' ', '-')}`} onClick={() => setShowMenu(false)} className="hover:text-gray-600 capitalize">
+                  {link}
+                </Link>
+              )
+            )}
           </div>
 
-          {/* Search (desktop only) */}
-          <div className="hidden lg:flex shrink-0">
+          <div className="hidden lg:flex relative w-[577px]">
             <InputField
               icon={<MdSearch size={24} color="gray" />}
-              classes="w-[577px] h-[48px] px-[16px] py-[12px] gap-[12px] rounded-[62px] border border-gray-300"
+              classes="w-full h-12 px-4 py-3 rounded-full border border-gray-300"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
+            {filteredProducts.length > 0 && (
+              <div className="absolute top-[52px] left-0 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-80 overflow-y-auto">
+                {filteredProducts.map(product => (
+                  <div
+                    key={product.id}
+                    className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    onClick={() => {
+                      setSearchTerm('');
+                      setFilteredProducts([]);
+                      router.push(`/product/${product.id}`);
+                    }}
+                  >
+                    <Image src={product.image} alt={product.name} width={40} height={40} className="rounded object-cover" />
+                    <div className="ml-3">
+                      <p className="text-sm font-medium">{product.name}</p>
+                      <p className="text-xs text-gray-500">
+                        {product.discount ? (
+                          <>
+                            <span className="line-through mr-1">${product.old_price}</span>
+                            <span className="text-red-500">${product.price}</span>
+                          </>
+                        ) : (
+                          <span>${product.price}</span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Right Icons */}
-          <div className="flex items-center space-x-4 shrink-0">
-            <button className="block lg:hidden">
+          <div className="flex items-center space-x-4">
+            <button className="lg:hidden">
               <MdSearch size={24} className="text-gray-700" />
             </button>
-
-            <Link href="/cart/">
-              <FiShoppingCart className="text-xl cursor-pointer hover:text-gray-600" />
+            <Link href="/cart">
+              <FiShoppingCart className="text-xl hover:text-gray-600" />
             </Link>
-
-            <button onClick={() => setShowLogin(true)} aria-label="Open login popup">
-              <PiUserCircleBold className="text-xl cursor-pointer hover:text-gray-600" />
+            <button onClick={() => setShowLogin(true)}>
+              <PiUserCircleBold className="text-xl hover:text-gray-600" />
             </button>
           </div>
         </nav>
-
-        {/* Divider Line */}
         <div className="w-full max-w-[1240px] h-px border border-[#0000001A] mx-auto" />
       </header>
 
-      {/* Login Popup */}
       {showLogin && (
-        <LoginPopup
-          onClose={() => setShowLogin(false)}
-          onSwitchToRegister={() => {
-            setShowLogin(false);
-            setShowRegister(true);
-          }}
-        />
+        <LoginPopup onClose={() => setShowLogin(false)} onSwitchToRegister={() => { setShowLogin(false); setShowRegister(true); }} />
       )}
-
       {showRegister && (
-        <RegisterPopup
-          onClose={() => setShowRegister(false)}
-          onSwitchToLogin={() => {
-            setShowRegister(false);
-            setShowLogin(true);
-          }}
-        />
+        <RegisterPopup onClose={() => setShowRegister(false)} onSwitchToLogin={() => { setShowRegister(false); setShowLogin(true); }} />
       )}
-
     </>
   );
 };

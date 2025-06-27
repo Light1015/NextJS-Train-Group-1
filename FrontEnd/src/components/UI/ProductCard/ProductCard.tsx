@@ -12,7 +12,7 @@ interface ProductProps {
         name: string;
         image: string;
         price: number;
-        oldPrice?: number;
+        old_price?: number;
         discount?: string;
         rating: number;
     };
@@ -46,12 +46,12 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
                 {/* Prices */}
                 <div className="mt-2 flex items-center gap-2 text-sm flex-wrap sm:flex-nowrap">
                     <span className="text-lg font-medium">${product.price}</span>
-                    {product.oldPrice && (
-                        <span className="text-gray-500 line-through">${product.oldPrice}</span>
+                    {product.old_price && (
+                        <span className="text-gray-500 line-through">${product.old_price}</span>
                     )}
                     {product.discount && (
                         <span className="text-red-500 bg-red-100 text-xs rounded-full px-2 py-0.5">
-                            -{product.discount}
+                            -{product.discount}%
                         </span>
                     )}
                 </div>

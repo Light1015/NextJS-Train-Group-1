@@ -32,7 +32,12 @@
       ],
       "@/constants/*": [
         "constants/*"
-      ]
+      ],
+      "@/hooks/*": [
+        "hooks/*"
+      ],
+      "@/types/*": ["types/*"]      
+      
     }
   },
   "include": [

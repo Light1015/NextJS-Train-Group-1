@@ -205,7 +205,7 @@ const Reviews = ({ data }: ReviewsProps) => {
                     >
                         {infiniteData.map((review, index) => (
                             <div
-                                key={`${review.id}-${Math.floor(index / data.length)}`}
+                                key={`${review.id}-${index}`}
                                 className="flex-shrink-0 review-card-container"
                                 style={{
                                     opacity: getCardOpacity(index),
