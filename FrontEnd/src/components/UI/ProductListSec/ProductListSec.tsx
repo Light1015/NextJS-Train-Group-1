@@ -49,7 +49,7 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
                 >
                     {data.map((product, index) => (
                         <motion.div
-                            key={product.id}
+                            key={`${product.id}-${index}-${product.title}`}
                             initial={{ opacity: 0, x: 50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
@@ -87,7 +87,7 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
             >
                 {data.map((product, index) => (
                     <motion.div
-                        key={product.id}
+                        key={`${product.id}-${index}-${product.title}`}
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -99,7 +99,7 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
                                 id: product.id,
                                 name: product.title,
                                 image: product.srcUrl,
-                                price: product.price, // 👈 giữ nguyên kiểu number
+                                price: product.price, 
                                 oldPrice: product.discount.percentage > 0
                                     ? Math.round(product.price / (1 - product.discount.percentage / 100))
                                     : undefined,

@@ -91,7 +91,9 @@ const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
                     <BsChevronDown onClick={() => setActive("color")} className="text-gray-500 cursor-pointer" />
                 </div>
                 <div className={`${active === "color" ? "max-h-screen" : "max-h-0"} transition-all duration-500 overflow-hidden`}>
-                    <ColorsList colors={colors} />
+                    <ColorsList colors={colors} selectedColor={""} setSelectedColor={function (color: string): void {
+                        throw new Error("Function not implemented.");
+                    } } />
                 </div>
             </div>
 
