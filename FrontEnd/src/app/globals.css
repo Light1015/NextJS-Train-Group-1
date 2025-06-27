@@ -8,8 +8,10 @@
 }
 
 @font-face {
-  font-family: 'Integral_CF';
+  font-family: 'Integral CF';
   src: url('/fonts/Fontspring-DEMO-integralcf-regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 /* Global styles */

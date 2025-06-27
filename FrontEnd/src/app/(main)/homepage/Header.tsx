@@ -3,9 +3,14 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import * as motion from "framer-motion/client";
 
 const HeaderHome = () => {
-    const [counter, setCounter] = useState({ brands: 0, products: 0, customers: 0 });
+    const [counter, setCounter] = useState({
+        brands: 0,
+        products: 0,
+        customers: 0,
+    });
 
     useEffect(() => {
         let start = Date.now();
@@ -32,28 +37,57 @@ const HeaderHome = () => {
                 {/* Left column */}
                 <section className="h-full max-w-frame px-4 md:pl-[100px] md:pr-4 flex flex-col justify-center order-1">
                     <div className="mb-8 md:mb-12">
-                        <h1 className="mb-5 lg:mb-8 text-[36px] md:text-[64px] leading-[36px] md:leading-[64px] font-bold tracking-normal text-left" style={{ fontFamily: 'Integral CF', fontWeight: 700 }}>
-                            <span className="block md:inline">FIND CLOTHES</span>{' '}
-                            <span className="block md:inline">THAT MATCHES</span>{' '}
+                        <motion.h1
+                            initial={{ y: "100px", opacity: 0, rotate: 10 }}
+                            whileInView={{ y: "0", opacity: 1, rotate: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="mb-5 lg:mb-8 text-[36px] md:text-[64px] leading-[36px] md:leading-[64px] font-bold tracking-normal text-left"
+                            style={{ fontFamily: "Integral CF" }}
+                        >
+                            <span className="block md:inline">FIND CLOTHES</span>{" "}
+                            <span className="block md:inline">THAT MATCHES</span>{" "}
                             <span className="block md:inline">YOUR STYLE</span>
-                        </h1>
-                        <p className="text-black/60 text-sm md:text-base mb-6 md:mb-8 max-w-[545px] font-normal md:font-bold text-left mx-0">
-                            Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
-                        </p>
-                        <div className="mb-8 md:mb-12 text-left">
+                        </motion.h1>
+
+                        <motion.p
+                            initial={{ y: "100px", opacity: 0 }}
+                            whileInView={{ y: "0", opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.5, duration: 0.6 }}
+                            className="text-black/60 text-sm md:text-base mb-6 md:mb-8 max-w-[545px] font-normal md:font-bold text-left mx-0"
+                        >
+                            Browse through our diverse range of meticulously crafted garments,
+                            designed to bring out your individuality and cater to your sense of style.
+                        </motion.p>
+
+                        <motion.div
+                            initial={{ y: "100px", opacity: 0 }}
+                            whileInView={{ y: "0", opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 1, duration: 0.6 }}
+                            className="mb-8 md:mb-12 text-left"
+                        >
                             <Link
                                 href="/casual"
                                 className="inline-block text-center bg-black hover:bg-black/80 transition-all text-white px-12 md:px-14 py-3 md:py-4 rounded-full hover:animate-pulse w-full md:w-auto max-w-[358px] md:max-w-none"
                             >
                                 Shop Now
                             </Link>
-                        </div>
+                        </motion.div>
                     </div>
 
                     {/* Stats section - mobile layout */}
-                    <div className="grid grid-cols-2 gap-4 md:flex md:flex-row md:items-center md:space-y-0 md:space-x-8">
+                    <motion.div
+                        initial={{ y: "100px", opacity: 0 }}
+                        whileInView={{ y: "0", opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 1.5, duration: 0.6 }}
+                        className="grid grid-cols-2 gap-4 md:flex md:flex-row md:items-center md:space-y-0 md:space-x-8"
+                    >
+                        {/* Cột 1 */}
                         <div className="flex justify-center md:justify-start">
-                            <div className="flex flex-col text-center md:text-left">
+                            <div className="flex flex-col text-center md:text-left whitespace-nowrap">
                                 <span className="font-bold text-[24px] md:text-[40px] leading-[32px] md:leading-[54px] mb-1 md:mb-2">
                                     {counter.brands}+
                                 </span>
@@ -62,14 +96,12 @@ const HeaderHome = () => {
                                 </span>
                             </div>
                         </div>
+                        {/* Cột 2 */}
+                        {/* Cột 2 */}
+                        <div className="flex justify-center md:justify-start md:pl-8 md:border-l md:border-black/10">
 
-                        {/* Desktop: vertical divider after first column */}
-                        <div className="hidden md:block h-[74px] bg-black/10 w-px"></div>
-
-                        {/* Mobile: vertical divider between first 2 columns */}
-                        <div className="flex justify-center md:justify-start relative">
                             <div className="absolute left-0 top-1/2 transform -translate-y-1/2 h-[50px] w-px bg-black/10 md:hidden"></div>
-                            <div className="flex flex-col text-center md:text-left">
+                            <div className="flex flex-col text-center md:text-left whitespace-nowrap">
                                 <span className="font-bold text-[24px] md:text-[40px] leading-[32px] md:leading-[54px] mb-1 md:mb-2">
                                     {counter.products.toLocaleString()}+
                                 </span>
@@ -78,12 +110,11 @@ const HeaderHome = () => {
                                 </span>
                             </div>
                         </div>
+                        {/* Cột 3 */}
+                        {/* Cột 3 */}
+                        <div className="flex justify-center md:justify-start md:pl-8 md:border-l md:border-black/10">
 
-                        {/* Desktop: vertical divider after second column */}
-                        <div className="hidden md:block h-[74px] bg-black/10 w-px"></div>
-
-                        <div className="flex justify-center md:justify-start col-span-2 md:col-span-1">
-                            <div className="flex flex-col text-center md:text-left">
+                            <div className="flex flex-col text-center md:text-left whitespace-nowrap">
                                 <span className="font-bold text-[24px] md:text-[40px] leading-[32px] md:leading-[54px] mb-1 md:mb-2">
                                     {counter.customers.toLocaleString()}+
                                 </span>
@@ -92,11 +123,18 @@ const HeaderHome = () => {
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
+
                 </section>
 
                 {/* Right column - Image section */}
-                <section className="h-[448px] md:h-full relative md:px-4 bg-cover bg-center md:bg-top xl:bg-[center_top_-1.6rem] bg-no-repeat bg-[url('/images/header-res-homepage.png')] md:bg-[url('/images/header-homepage.png')] order-2">
+                <motion.section
+                    initial={{ y: "100px", opacity: 0, rotate: 10 }}
+                    whileInView={{ y: "0", opacity: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 2.3, duration: 0.8 }}
+                    className="h-[448px] md:h-full relative md:px-4 bg-cover bg-center md:bg-top xl:bg-[center_top_-1.6rem] bg-no-repeat bg-[url('/images/header-res-homepage.png')] md:bg-[url('/images/header-homepage.png')] order-2"
+                >
                     <Image
                         priority
                         src="/images/big-star.svg"
@@ -113,7 +151,7 @@ const HeaderHome = () => {
                         alt="small star"
                         className="absolute left-4 md:left-7 md:md:left-0 top-32 sm:top-64 md:top-44 lg:top-56 max-w-8 max-h-8 md:max-11 md:max-h-11 md:max-w-14 md:max-h-14 animate-[spin_3s_infinite]"
                     />
-                </section>
+                </motion.section>
             </div>
         </header>
     );
