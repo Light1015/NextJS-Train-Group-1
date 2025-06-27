@@ -8,9 +8,10 @@ export type Product = {
   name: string;
   image: string;
   price: number;
-  oldPrice?: number | null;
+  old_price?: number | null;
   discount?: string | null;
   rating: number;
   colors: { id: number; name: string }[];
   sizes: { id: number; name: string }[];
+  category: { id: number; name: string };
 };

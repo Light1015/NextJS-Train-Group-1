@@ -2,48 +2,71 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Breadcrumbs() {
     const pathname = usePathname();
-    const pathParts = pathname.split('/').filter(Boolean); 
-    console.log('📍 Breadcrumbs pathname:', pathname);
+    const pathParts = pathname.split('/').filter(Boolean);
 
-    const crumbs = pathParts.map((part, index) => {
-        const href = '/' + pathParts.slice(0, index + 1).join('/');
-        const label = decodeURIComponent(part.charAt(0).toUpperCase() + part.slice(1));
-        const isLast = index === pathParts.length - 1;
+    const [productName, setProductName] = useState('');
+    const [categoryName, setCategoryName] = useState('');
 
-        return (
-            <span key={href} className="flex items-center">
-                {!isLast ? (
-                    <>
-                        <Link
-                            href={href}
-                            className="text-[#666] hover:underline font-[400] text-[16px] leading-[100%] tracking-[0] font-[Satoshi]"
-                        >
-                            {label}
-                        </Link>
-                        <span className="mx-2 text-[#999]">›</span>
-                    </>
-                ) : (
-                    <span className="font-[400] text-[16px] leading-[100%] tracking-[0] text-black font-[Satoshi]">
-                        {label}
-                    </span>
-                )}
-            </span>
-        );
-    });
+    useEffect(() => {
+        const isProductDetail = pathParts[0] === 'product' && pathParts[1];
+
+        if (isProductDetail) {
+            const productId = pathParts[1];
+            fetch(`http://localhost:8000/product/products/${productId}/`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setProductName(data.name);
+                    setCategoryName(data.category?.name ?? 'Category');
+                })
+                .catch((err) => {
+                    console.error('Failed to load product for breadcrumbs', err);
+                });
+        }
+    }, [pathname]);
+
+    const isProductPage = pathParts[0] === 'product' && productName;
 
     return (
         <nav className="flex items-center pt-[10px] pb-[10px]">
-            <Link
-                href="/"
-                className="text-[#666] hover:underline font-[400] text-[16px] leading-[100%] tracking-[0] font-[Satoshi]"
-            >
+            <Link href="/" className="text-[#666] hover:underline font-[Satoshi] text-[16px]">
                 Home
             </Link>
-            {pathParts.length > 0 && <span className="mx-2 text-[#999]">›</span>}
-            {crumbs}
+            <span className="mx-2 text-[#999]">›</span>
+
+            {isProductPage ? (
+                <>
+                    <Link href={`/category/${categoryName.toLowerCase()}`} className="text-[#666] hover:underline text-[16px] font-[Satoshi]">
+                        {categoryName}
+                    </Link>
+                    <span className="mx-2 text-[#999]">›</span>
+                    <span className="text-black font-[Satoshi] text-[16px]">{productName}</span>
+                </>
+            ) : (
+                pathParts.map((part, index) => {
+                    const href = '/' + pathParts.slice(0, index + 1).join('/');
+                    const label = decodeURIComponent(part).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+                    const isLast = index === pathParts.length - 1;
+
+                    return (
+                        <span key={href} className="flex items-center">
+                            {!isLast ? (
+                                <>
+                                    <Link href={href} className="text-[#666] hover:underline text-[16px] font-[Satoshi]">
+                                        {label}
+                                    </Link>
+                                    <span className="mx-2 text-[#999]">›</span>
+                                </>
+                            ) : (
+                                <span className="text-black font-[Satoshi] text-[16px]">{label}</span>
+                            )}
+                        </span>
+                    );
+                })
+            )}
         </nav>
     );
 }

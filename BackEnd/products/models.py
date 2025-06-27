@@ -1,6 +1,12 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+    
 
 class Color(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -44,8 +50,8 @@ class Product(models.Model):
 
     colors = models.ManyToManyField(Color, related_name='products')
     sizes = models.ManyToManyField(Size, related_name='products')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', null=True)  # 💡 thêm dòng này
 
-    # Change to FloatField for decimal rating like 4.5, 3.8...
     rating = models.FloatField(
         validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
         default=5.0
@@ -57,3 +63,4 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+

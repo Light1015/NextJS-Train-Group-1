@@ -13,7 +13,7 @@ function SizeButton({ sizes, selectedSize, setSelectedSize }: SizeButtonProps) {
       {sizes.map((size, index) => (
         <button
           key={index}
-          onClick={() => setSelectedSize(size)}
+          onClick={() => setSelectedSize(selectedSize === size ? "" : size)}
           className={`py-2.5 px-4 text-sm rounded-full cursor-pointer transition-colors duration-200 ${
             size === selectedSize
               ? "text-white bg-black"
