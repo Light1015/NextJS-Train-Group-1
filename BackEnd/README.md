@@ -19,7 +19,7 @@ source .venv/bin/activate
 
 ```sh
 python -m venv venv
-.venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 
 ### Install python requirements
