@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Color(models.Model):
@@ -28,11 +28,27 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    old_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        verbose_name='Old Price'
+    )
+    discount = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        verbose_name='Discount (%)'
+    )
+
     colors = models.ManyToManyField(Color, related_name='products')
     sizes = models.ManyToManyField(Size, related_name='products')
-    rating = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        default=5
+
+    # Change to FloatField for decimal rating like 4.5, 3.8...
+    rating = models.FloatField(
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
+        default=5.0
     )
 
     class Meta:

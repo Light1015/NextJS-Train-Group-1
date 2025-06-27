@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 export interface ProductItem {
+  title: string
   id: number
   name: string
   image: string | null
