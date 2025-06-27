@@ -9,11 +9,20 @@ import ColorsList from "@/components/UI/ColorsList/ColorsList";
 import PriceRange from "@/components/UI/PriceRange/PriceRange";
 
 interface SidebarFilterProps {
-    showSideBar: boolean;
-    setshowSideBar: (show: boolean) => void;
+  showSideBar: boolean;
+  setshowSideBar: (show: boolean) => void;
+  selectedColor: string;
+  setSelectedColor: (color: string) => void;
+  selectedSize: string;
+  setSelectedSize: (size: string) => void;
+  minPrice: number;
+  maxPrice: number;
+  setMinPrice: (price: number) => void;
+  setMaxPrice: (price: number) => void;
+  handleApplyFilter: () => void;
 }
 
-const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
+const SidebarFilter = ({ showSideBar, setshowSideBar, selectedColor, setSelectedColor, selectedSize, setSelectedSize, minPrice, maxPrice, setMinPrice, setMaxPrice, handleApplyFilter }: SidebarFilterProps) => {
     const [active, setActive] = useState("color");
 
     const colors = ["green", "red", "yellow", "orange", "cyan", "blue", "purple", "pink", "white", "black"];
@@ -80,7 +89,13 @@ const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
                     <BsChevronDown onClick={() => setActive("price")} className="text-gray-500 cursor-pointer" />
                 </div>
                 <div className={`${active === "price" ? "max-h-screen" : "max-h-0"} transition-all duration-500 overflow-hidden`}>
-                    <PriceRange />
+                    <PriceRange
+                        price={[minPrice, maxPrice]}
+                        setPrice={([min, max]: [number, number]) => {
+                            setMinPrice(min);
+                            setMaxPrice(max);
+                        }}
+                    />
                 </div>
             </div>
 
@@ -91,9 +106,11 @@ const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
                     <BsChevronDown onClick={() => setActive("color")} className="text-gray-500 cursor-pointer" />
                 </div>
                 <div className={`${active === "color" ? "max-h-screen" : "max-h-0"} transition-all duration-500 overflow-hidden`}>
-                    <ColorsList colors={colors} selectedColor={""} setSelectedColor={function (color: string): void {
-                        throw new Error("Function not implemented.");
-                    } } />
+                    <ColorsList
+  colors={colors}
+  selectedColor={selectedColor}
+  setSelectedColor={setSelectedColor}
+/>
                 </div>
             </div>
 
@@ -104,7 +121,11 @@ const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
                     <BsChevronDown onClick={() => setActive("size")} className="text-gray-500 cursor-pointer" />
                 </div>
                 <div className={`${active === "size" ? "max-h-screen" : "max-h-0"} transition-all duration-500 overflow-hidden`}>
-                    <SizeButton sizes={sizes} />
+                  <SizeButton
+  sizes={sizes}
+  selectedSize={selectedSize}
+  setSelectedSize={setSelectedSize}
+/>
                 </div>
             </div>
 
@@ -128,7 +149,7 @@ const SidebarFilter = ({ showSideBar, setshowSideBar }: SidebarFilterProps) => {
             </div>
 
             <div className="mt-6 flex justify-center">
-                <button className="w-full max-w-[247px] px-[54px] py-4 rounded-[62px] bg-black text-white hover:bg-gray-800 transition-all duration-300">
+                <button className="w-full max-w-[247px] px-[54px] py-4 rounded-[62px] bg-black text-white hover:bg-gray-800 transition-all duration-300" onClick={handleApplyFilter}>
                     Apply Filter
                 </button>
             </div>

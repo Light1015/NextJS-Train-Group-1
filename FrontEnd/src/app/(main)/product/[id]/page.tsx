@@ -113,11 +113,17 @@ const ProductDetails = () => {
             <span>{product.rating}/5</span>
           </div>
 
-          <div className={styles.price}>
-            <span className={styles.current}>${product.price}</span>
-            {product.oldPrice && <span className={styles.old}>${product.oldPrice}</span>}
-            {product.discount && <span className={styles.discount}>-{String(product.discount)}</span>}
-          </div>
+       <div className={styles.price}>
+  <span className={styles.current}>${product.price}</span>
+
+  {product.old_price && (
+    <span className={styles.old}>${product.old_price}</span>
+  )}
+
+  {product.discount && (
+    <span className={styles.discount}>-{product.discount}%</span>
+  )}
+</div>
 
           <p className={styles.description}>
             This graphic t-shirt which is perfect for any occasion. Crafted from a soft and breathable fabric, it offers superior comfort and style.
