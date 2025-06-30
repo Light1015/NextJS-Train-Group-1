@@ -10,16 +10,25 @@ const useProductDetail = (id: number) => {
   useEffect(() => {
     if (!id) return;
 
-    axios.get(`http://localhost:8000/product/products/${id}/`)
+    const controller = new AbortController();
+
+    axios
+      .get<Product>(`http://localhost:8000/product/products/${id}/`, {
+        signal: controller.signal,
+      })
+
       .then((res) => {
-        setProduct(res.data as Product);
+        setProduct(res.data);
         setLoading(false);
       })
       .catch((err) => {
+        if (err.name === 'CanceledError' || err.code === 'ERR_CANCELED') return;
         console.error('Failed to load product:', err);
         setError('Failed to load product');
         setLoading(false);
       });
+
+    return () => controller.abort();
   }, [id]);
 
   return { product, loading, error };

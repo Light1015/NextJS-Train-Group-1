@@ -1,7 +1,8 @@
 'use client';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useCart as useCartAPI } from '@/hooks/useCart'; // 👈 Sử dụng đúng hook để lấy getCart
 
-interface CartItem {
+export interface CartItem {
   id: number;
   name: string;
   size: string;
@@ -22,6 +23,31 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const { getCart } = useCartAPI(); // ✅ Gọi hook và destructure getCart
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res = await getCart();
+        if (res?.items) {
+          const mappedItems: CartItem[] = res.items.map((item: any) => ({
+            id: item.product.id,
+            name: item.product.name,
+            size: item.size || 'Default',
+            color: item.color || 'Default',
+            price: item.product.price,
+            quantity: item.quantity,
+            image: item.product.image,
+          }));
+          setItems(mappedItems);
+        }
+      } catch (error) {
+        console.error("❌ Không thể load giỏ hàng từ server:", error);
+      }
+    };
+
+    fetchCart();
+  }, []);
 
   const addToCart = (newItem: CartItem) => {
     setItems(prev => {
@@ -52,9 +78,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const removeItem = (id: number, size: string, color: string) => {
-    setItems(prev => prev.filter(
-      item => !(item.id === id && item.size === size && item.color === color)
-    ));
+    setItems(prev =>
+      prev.filter(item => !(item.id === id && item.size === size && item.color === color))
+    );
   };
 
   return (

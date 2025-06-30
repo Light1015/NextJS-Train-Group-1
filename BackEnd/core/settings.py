@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'products',
     'corsheaders',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'product',
         'USER': 'postgres',
-        'PASSWORD': '1',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
     }

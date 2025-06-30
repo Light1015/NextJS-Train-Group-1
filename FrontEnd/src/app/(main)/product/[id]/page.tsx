@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./productdetail.module.scss";
 import Button from "@/components/UI/Button/Button";
 import useProductDetail from "@/hooks/useProductDetail";
+import { useDebouncedAddToCart } from "@/hooks/useDebouncedAddToCart"; // thêm dòng này
 import ProductDetail from "@/components/ProductDetail/ProductDetails";
 import RatingsAndReviews from "@/components/RatingAndReview/RatingsAndReviews";
 import FAQs from "@/components/Faqs/FAQs";
@@ -14,11 +15,12 @@ import ColorsList from "@/components/UI/ColorsList/ColorsList";
 import SizeButton from "@/components/UI/SizeButton/SizeButton";
 import Swal from "sweetalert2";
 
+import { CartItem } from "@/context/CartContext";
+
 const ProductDetails = () => {
   const params = useParams();
   const productId = parseInt(params.id as string, 10);
   const { product, loading, error: productError } = useProductDetail(productId);
-
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("Large");
   const [quantity, setQuantity] = useState(1);
@@ -26,16 +28,37 @@ const ProductDetails = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { addToCart } = useCart();
+  const addToCartDebounced = useDebouncedAddToCart(addToCart);
 
-  if (loading) return <div>Loading...</div>;
-  if (productError) return <div>{productError}</div>;
-  if (!product) return <div>Product not found</div>;
+  const handleAddToCart = () => {
+    console.log("CLICKED");
+    if (!selectedColor || !product) {
+      Swal.fire({ icon: "warning", title: "Please select a color!", timer: 1200 });
+      return;
+    }
+
+    const item: CartItem = {
+      id: product.id,
+      name: product.name,
+      size: selectedSize,
+      color: selectedColor,
+      price: Number(product.price),
+      quantity,
+      image: product.image,
+    };
+
+    console.log("ADDING:", item);
+    addToCartDebounced(item); // không debounce lại ở đây nữa
+
+  };
 
   const handleQuantity = (type: "inc" | "dec") => {
     setQuantity((prev) => (type === "inc" ? prev + 1 : Math.max(1, prev - 1)));
   };
 
   const renderStars = () => {
+    if (!product) return null; // ✅ Kiểm tra null
+
     const stars = [];
     const fullStars = Math.floor(product.rating);
     const hasHalfStar = product.rating % 1 !== 0;
@@ -47,6 +70,7 @@ const ProductDetails = () => {
         stars.push(<img key={i} src="/images/halfstar.png" alt="half star" className={styles.star} />);
       }
     }
+
     return stars;
   };
 
@@ -63,34 +87,16 @@ const ProductDetails = () => {
     }
   };
 
-  const handleAddToCart = () => {
-    if (!selectedColor) {
-      Swal.fire({
-        icon: "warning",
-        title: "Please select a color!",
-        showConfirmButton: false,
-        timer: 1200,
-      });
-      return;
-    }
-
-    addToCart({
-      id: product.id,
-      name: product.name,
-      size: selectedSize,
-      color: selectedColor,
-      price: Number(product.price),
-      quantity,
-      image: product.image,
-    });
-
-    Swal.fire({
-      icon: "success",
-      title: "Added to cart!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+  const formatPrice = (price: any) => {
+    const numericPrice = Number(price);
+    return Number.isInteger(numericPrice)
+      ? numericPrice
+      : numericPrice.toFixed(2);
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (productError) return <div>{productError}</div>;
+  if (!product) return <div>Product not found</div>;
 
   return (
     <>
@@ -114,14 +120,14 @@ const ProductDetails = () => {
           </div>
 
           <div className={styles.price}>
-            <span className={styles.current}>${product.price}</span>
+            <span className={styles.current}>${formatPrice(product.price)}</span>
 
             {product.old_price && (
-              <span className={styles.old}>${product.old_price}</span>
+              <span className={styles.old}>${formatPrice(product.old_price)}</span>
             )}
 
             {product.discount && (
-              <span className={styles.discount}>-{product.discount}%</span>
+              <span className={styles.discount}>-{product.discount}</span>
             )}
           </div>
 
@@ -156,7 +162,9 @@ const ProductDetails = () => {
             <Button
               title="Add to Cart"
               classes="bg-black text-white w-full md:w-fit"
-              handleClick={handleAddToCart}
+              handleClick={() => {
+                handleAddToCart();
+              }}
             />
           </div>
         </div>

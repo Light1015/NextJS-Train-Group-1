@@ -65,8 +65,16 @@ function Cart() {
                                     <span className="font-bold text-base">${item.price}</span>
                                     <QuantityCounter
                                         currentQuantity={item.quantity}
-                                        onDecrement={() => updateQuantity(item.id, item.size, item.color, -1)}
-                                        onIncrement={() => updateQuantity(item.id, item.size, item.color, 1)}
+                                        onDecrement={() => {
+                                            if (item.quantity === 1) {
+                                                removeItem(item.id, item.size, item.color);
+                                            } else {
+                                                updateQuantity(item.id, item.size, item.color, -1);
+                                            }
+                                        }}
+                                        onIncrement={() =>
+                                            updateQuantity(item.id, item.size, item.color, 1)
+                                        }
                                     />
                                 </div>
                             </div>
