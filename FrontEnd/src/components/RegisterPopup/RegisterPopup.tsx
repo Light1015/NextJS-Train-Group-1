@@ -182,18 +182,7 @@ const RegisterPopup = ({ onClose, onSwitchToLogin }: RegisterPopupProps) => {
 
     return (
         <>
-            {/* Thêm CSS cho SweetAlert2 z-index cao */}
-            <style jsx global>{`
-                .swal2-container-high-z {
-                    z-index: 999999 !important;
-                }
-                
-                .swal2-container-high-z .swal2-popup {
-                    z-index: 999999 !important;
-                }
-            `}</style>
-
-            <div className="fixed inset-0 z-[99999] bg-black/50 flex justify-center items-center">
+            <div className="fixed inset-0 z-[1000] bg-black/50 flex items-center justify-center p-4">
                 <div
                     ref={popupRef}
                     className="relative bg-white p-6 w-[400px] rounded-[20px] border border-[#0000001A] shadow-md"
