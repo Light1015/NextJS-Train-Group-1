@@ -13,26 +13,25 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('email', 'full_name', 'password', 'confirm_password')
 
     def validate_email(self, value):
+        """Xử lý email và kiểm tra trùng lặp."""
         email = value.strip().lower()
         if CustomUser.objects.filter(email=email).exists():
-            raise serializers.ValidationError("This email is already registered.")
+            raise serializers.ValidationError("Email này đã được sử dụng.")
         return email
 
     def validate(self, data):
-        password = data.get("password")
-        confirm_password = data.get("confirm_password")
-        if password != confirm_password:
-            raise serializers.ValidationError({"confirm_password": "Passwords do not match."})
+        """Xác thực mật khẩu trùng khớp."""
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError({"confirm_password": "Mật khẩu không trùng khớp."})
         return data
 
     def create(self, validated_data):
+        """Tạo người dùng mới."""
         validated_data.pop('confirm_password')
-        return CustomUser.objects.create_user(
-            email=validated_data['email'].strip().lower(),
-            full_name=validated_data['full_name'].strip(),
-            password=validated_data['password']
-        )
-
+        email = validated_data['email'].strip().lower()
+        full_name = validated_data['full_name'].strip()
+        password = validated_data['password']
+        return CustomUser.objects.create_user(email=email, full_name=full_name, password=password)
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()

@@ -4,6 +4,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { FaEye, FaEnvelope } from 'react-icons/fa';
+import { saveSession, setupAxiosInterceptor } from '@components/Login/Login';
+
+interface LoginResponse {
+    access?: string;
+    refresh?: string;
+    token?: string;
+    user?: any;
+    [key: string]: any;
+}
 
 interface RegisterPopupProps {
     onClose: () => void;
@@ -117,14 +126,45 @@ const RegisterPopup = ({ onClose, onSwitchToLogin }: RegisterPopupProps) => {
         if (!validateForm()) return;
 
         try {
-            const response = await axios.post('http://localhost:8000/api/accounts/register/', {
+            // 1. Đăng ký tài khoản
+            await axios.post('http://localhost:8000/api/accounts/register/', {
                 email: email.trim().toLowerCase(),
                 full_name: `${firstName} ${lastName}`,
                 password,
                 confirm_password: confirmPassword,
             });
 
-            showAlert('success', 'Success', 'Account created successfully!', true);
+            const loginResponse = await axios.post('http://localhost:8000/api/accounts/login/', {
+                email: email.trim().toLowerCase(),
+                password: password,
+            });
+
+            const loginData = loginResponse.data as LoginResponse;
+            const accessToken = loginData.access || loginData.token;
+            const refreshToken = loginData.refresh || '';
+            const user = loginData.user;
+
+            if (accessToken) {
+                const userInfo = user || {
+                    id: Date.now(),
+                    email: email.trim().toLowerCase(),
+                    name: email.split('@')[0],
+                };
+
+                saveSession(accessToken, refreshToken, userInfo);
+                setupAxiosInterceptor(accessToken);
+
+                Swal.fire({
+                    title: 'Success!',
+                    text: `Welcome, ${userInfo.name || userInfo.email}!`,
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+
+                onClose();
+            }
+
         } catch (error: any) {
             if (error.response) {
                 const data = error.response.data;
@@ -139,6 +179,7 @@ const RegisterPopup = ({ onClose, onSwitchToLogin }: RegisterPopupProps) => {
             }
         }
     };
+
     return (
         <>
             {/* Thêm CSS cho SweetAlert2 z-index cao */}

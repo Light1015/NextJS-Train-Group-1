@@ -50,10 +50,12 @@ class RegisterView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         except IntegrityError as e:
+            import traceback
+            traceback.print_exc()
             print("IntegrityError:", str(e))
             return Response({
                 'success': False,
-                'message': 'Email already exists. Please use a different email.',
+                'message': str(e),
                 'errors': {
                     'email': ['This email is already registered.']
                 }

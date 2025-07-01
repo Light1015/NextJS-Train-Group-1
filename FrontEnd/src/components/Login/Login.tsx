@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -27,7 +28,61 @@ interface User {
     role?: string;
     [key: string]: any;
 }
+export const saveSession = (accessToken: string, refreshToken: string, user: User) => {
+    const sessionData = {
+        accessToken,
+        refreshToken,
+        user,
+        loginTime: new Date().getTime(),
+        expiresIn: 24 * 60 * 60 * 1000, // 24 hours
+    };
+    localStorage.setItem('userSession', JSON.stringify(sessionData));
+    localStorage.setItem('token', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('user', JSON.stringify(user));
+};
+export const setupAxiosInterceptor = (token: string) => {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios.interceptors.response.use(
+        (response) => response,
+        async (error) => {
+            const originalRequest = error.config;
+            if (error.response?.status === 401 && !originalRequest._retry) {
+                originalRequest._retry = true;
+                try {
+                    const refreshToken = localStorage.getItem('refreshToken');
+                    if (refreshToken) {
+                        const refreshResponse = await axios.post<any>(
+                            'http://localhost:8000/api/accounts/refresh/',
+                            { refresh: refreshToken }
+                        );
+                        const newAccessToken = refreshResponse.data.access;
+                        localStorage.setItem('token', newAccessToken);
+                        const sessionData = JSON.parse(localStorage.getItem('userSession') || '{}');
+                        sessionData.accessToken = newAccessToken;
+                        sessionData.loginTime = new Date().getTime();
+                        localStorage.setItem('userSession', JSON.stringify(sessionData));
+                        axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+                        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                        return axios(originalRequest);
+                    }
+                } catch (refreshError) {
+                    clearSession();
+                    window.location.reload();
+                }
+            }
+            return Promise.reject(error);
+        }
+    );
+};
 
+export const clearSession = () => {
+    localStorage.removeItem('userSession');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+    delete axios.defaults.headers.common['Authorization'];
+};
 const LoginPopup = ({ onClose, onSwitchToRegister, onLoginSuccess }: LoginPopupProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -45,76 +100,6 @@ const LoginPopup = ({ onClose, onSwitchToRegister, onLoginSuccess }: LoginPopupP
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [onClose]);
-
-    // Hàm lưu session vào localStorage
-    const saveSession = (accessToken: string, refreshToken: string, user: User) => {
-        const sessionData = {
-            accessToken,
-            refreshToken,
-            user,
-            loginTime: new Date().getTime(),
-            expiresIn: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
-        };
-
-        localStorage.setItem('userSession', JSON.stringify(sessionData));
-        localStorage.setItem('token', accessToken); // Giữ để backward compatibility
-        localStorage.setItem('refreshToken', refreshToken);
-        localStorage.setItem('user', JSON.stringify(user));
-    };
-
-    // Hàm setup axios interceptor để tự động thêm token vào headers
-    const setupAxiosInterceptor = (token: string) => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-        axios.interceptors.response.use(
-            (response) => response,
-            async (error) => {
-                const originalRequest = error.config;
-
-                if (error.response?.status === 401 && !originalRequest._retry) {
-                    originalRequest._retry = true;
-
-                    try {
-                        const refreshToken = localStorage.getItem('refreshToken');
-                        if (refreshToken) {
-                            const refreshResponse = await axios.post<any>('http://localhost:8000/api/accounts/refresh/', {
-                                refresh: refreshToken
-                            });
-
-                            const newAccessToken = (refreshResponse.data as LoginResponse).access;
-                            localStorage.setItem('token', String(newAccessToken));
-
-
-                            const sessionData = JSON.parse(localStorage.getItem('userSession') || '{}');
-                            sessionData.accessToken = newAccessToken;
-                            sessionData.loginTime = new Date().getTime();
-                            localStorage.setItem('userSession', JSON.stringify(sessionData));
-
-                            axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
-                            originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-
-                            return axios(originalRequest);
-                        }
-                    } catch (refreshError) {
-                        clearSession();
-                        window.location.reload();
-                    }
-                }
-
-                return Promise.reject(error);
-            }
-        );
-    };
-
-
-    // Hàm clear session
-    const clearSession = () => {
-        localStorage.removeItem('userSession');
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-        delete axios.defaults.headers.common['Authorization'];
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -332,14 +317,6 @@ export const isAuthenticated = () => {
 export const getCurrentUser = () => {
     const session = getSession();
     return session ? session.user : null;
-};
-
-export const clearSession = () => {
-    localStorage.removeItem('userSession');
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-    delete axios.defaults.headers.common['Authorization'];
 };
 
 export const logout = () => {
