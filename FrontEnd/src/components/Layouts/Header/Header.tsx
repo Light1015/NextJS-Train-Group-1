@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -10,7 +10,7 @@ import { FiShoppingCart } from 'react-icons/fi';
 import { PiUserCircleBold } from 'react-icons/pi';
 
 import Dropdown from '@/components/UI/Dropdown/Dropdown';
-import LoginPopup from '@/components/Login/Login';
+import LoginPopup, { getCurrentUser, logout } from '@/components/Login/Login';
 import RegisterPopup from '@/components/RegisterPopup/RegisterPopup';
 import InputField from '@/components/UI/InputField/InputField';
 import { useProducts } from '@/hooks/useProducts';
@@ -23,9 +23,31 @@ const Header = () => {
   const [showRegister, setShowRegister] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const { products = [] } = useProducts();
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    setCurrentUser(user);
+  }, []);
+
+  const handleLoginSuccess = (user: any) => {
+    setCurrentUser(user);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (searchTerm.trim() === '') {
@@ -140,19 +162,58 @@ const Header = () => {
             <Link href="/cart">
               <FiShoppingCart className="text-xl hover:text-gray-600" />
             </Link>
-            <button onClick={() => setShowLogin(true)}>
-              <PiUserCircleBold className="text-xl hover:text-gray-600" />
-            </button>
+
+            {currentUser ? (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="text-sm font-medium hover:text-gray-700"
+                >
+                  {currentUser.name || currentUser.email}
+                </button>
+
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                    <button
+                      onClick={() => {
+                        logout();
+                        setDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button onClick={() => setShowLogin(true)}>
+                <PiUserCircleBold className="text-xl hover:text-gray-600" />
+              </button>
+            )}
           </div>
         </nav>
         <div className="w-full max-w-[1240px] h-px border border-[#0000001A] mx-auto" />
       </header>
 
       {showLogin && (
-        <LoginPopup onClose={() => setShowLogin(false)} onSwitchToRegister={() => { setShowLogin(false); setShowRegister(true); }} />
+        <LoginPopup
+          onClose={() => setShowLogin(false)}
+          onSwitchToRegister={() => {
+            setShowLogin(false);
+            setShowRegister(true);
+          }}
+          onLoginSuccess={handleLoginSuccess}
+        />
       )}
       {showRegister && (
-        <RegisterPopup onClose={() => setShowRegister(false)} onSwitchToLogin={() => { setShowRegister(false); setShowLogin(true); }} />
+        <RegisterPopup
+          onClose={() => setShowRegister(false)}
+          onSwitchToLogin={() => {
+            setShowRegister(false);
+            setShowLogin(true);
+          }}
+        />
       )}
     </>
   );
