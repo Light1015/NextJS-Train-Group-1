@@ -16,3 +16,6 @@ rpds-py==0.25.1
 sqlparse==0.5.3
 uritemplate==4.2.0
 drf-spectacular[sidecar]
+gunicorn
+dj-database-url
+psycopg2-binary
