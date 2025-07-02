@@ -37,6 +37,7 @@ export default function Home() {
       rating: parseFloat(p.rating),
       colors: Array.isArray(p.colors) ? p.colors : [],
       sizes: Array.isArray(p.sizes) ? p.sizes : [],
+      category: p.category ?? { id: 0, name: "" }, // Ensure category is present
     };
   };
 

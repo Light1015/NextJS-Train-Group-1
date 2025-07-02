@@ -4,6 +4,7 @@ export type Discount = {
 };
 
 export type Product = {
+  srcUrl: string;
   id: number;
   name: string;
   image: string;

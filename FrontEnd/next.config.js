@@ -16,7 +16,7 @@ const nextConfig = {
       {
         source: '/',
         destination: '/homepage',
-        permanent: false, // tránh cache khi dev
+        permanent: false, 
       },
     ];
   },

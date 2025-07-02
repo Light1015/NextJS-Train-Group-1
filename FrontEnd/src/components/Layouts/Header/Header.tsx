@@ -63,9 +63,10 @@ const Header = () => {
           price: typeof product.price === 'string' ? Number(product.price) : product.price,
           old_price: product.old_price !== undefined && typeof product.old_price === 'string'
             ? Number(product.old_price)
-            : product.old_price
+            : product.old_price,
+          srcUrl: product.srcUrl // Ensure srcUrl is included
         }));
-      setFilteredProducts(filtered);
+      setFilteredProducts(filtered as Product[]);
     }
   }, [searchTerm, products]);
 
