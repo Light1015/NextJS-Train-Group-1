@@ -1,15 +1,7 @@
 'use client';
-import React, { createContext, useContext, useState } from 'react';
-
-interface CartItem {
-  id: number;
-  name: string;
-  size: string;
-  color: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useCartFetchFromAPI, CartItem } from '@/hooks/useCartFetchFromAPI';
 
 interface CartContextProps {
   items: CartItem[];
@@ -21,40 +13,100 @@ interface CartContextProps {
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const { items: fetchedItems, setItems, loading } = useCartFetchFromAPI();
+  const [items, setLocalItems] = useState<CartItem[]>([]);
 
-  const addToCart = (newItem: CartItem) => {
-    setItems(prev => {
-      const index = prev.findIndex(
-        item =>
-          item.id === newItem.id &&
-          item.size === newItem.size &&
-          item.color === newItem.color
+  useEffect(() => {
+    if (!loading) {
+      console.log("✅ fetchedItems from API:", fetchedItems);
+      setLocalItems(fetchedItems);
+    }
+  }, [fetchedItems, loading]);
+
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  console.log("🛡️ Token đang dùng:", token);
+
+  const addToCart = async (newItem: CartItem) => {
+    if (!token) return;
+
+    try {
+      const res = await axios.post<CartItem>(
+        "http://localhost:8000/api/cart/",
+        {
+          product: newItem.product_id, // ✅ BẮT BUỘC phải dùng "product"
+          size: newItem.size,
+          color: newItem.color,
+          quantity: newItem.quantity,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
-      if (index !== -1) {
-        const updated = [...prev];
-        updated[index].quantity += newItem.quantity;
-        return updated;
-      }
-      return [...prev, newItem];
-    });
+      // ✅ Nếu sản phẩm đã tồn tại, update lại item đó, không thêm mới
+      setLocalItems(prev => {
+        const exists = prev.find(
+          item =>
+            item.product_id === newItem.product_id &&
+            item.size === newItem.size &&
+            item.color === newItem.color
+        );
+        if (exists) {
+          return prev.map(item =>
+            item.product_id === newItem.product_id &&
+              item.size === newItem.size &&
+              item.color === newItem.color
+              ? { ...item, quantity: item.quantity + newItem.quantity }
+              : item
+          );
+        } else {
+          return [...prev, res.data];
+        }
+      });
+    } catch (err) {
+      console.error("Add to cart failed:", err);
+    }
   };
 
-  const updateQuantity = (id: number, size: string, color: string, amount: number) => {
-    setItems(prev =>
-      prev.map(item =>
-        item.id === id && item.size === size && item.color === color
-          ? { ...item, quantity: Math.max(1, item.quantity + amount) }
-          : item
-      )
+  const updateQuantity = async (id: number, size: string, color: string, amount: number) => {
+    if (!token) return;
+
+    const existing = items.find(
+      item => item.id === id && item.size === size && item.color === color
     );
+
+    if (!existing) return;
+
+    const newQty = Math.max(1, existing.quantity + amount);
+
+    try {
+      const res = await axios.put<CartItem>(
+        `http://localhost:8000/api/cart/${id}/`,
+        { quantity: newQty },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setLocalItems(prev =>
+        prev.map(item => item.id === id ? res.data : item)
+      );
+    } catch (err) {
+      console.error("Update quantity failed:", err);
+    }
   };
 
-  const removeItem = (id: number, size: string, color: string) => {
-    setItems(prev => prev.filter(
-      item => !(item.id === id && item.size === size && item.color === color)
-    ));
+  const removeItem = async (id: number, size: string, color: string) => {
+    if (!token) return;
+
+    try {
+      await axios.delete(`http://localhost:8000/api/cart/${id}/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setLocalItems(prev =>
+        prev.filter(item => !(item.id === id && item.size === size && item.color === color))
+      );
+    } catch (err) {
+      console.error("Remove item failed:", err);
+    }
   };
 
   return (

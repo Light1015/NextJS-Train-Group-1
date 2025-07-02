@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'products',
     'corsheaders',
     'accounts',
+    'cart',
 ]
 AUTH_USER_MODEL = 'accounts.CustomUser'
 MIDDLEWARE = [
@@ -133,7 +134,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'product',
         'USER': 'postgres',
-        'PASSWORD': '1',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
     }

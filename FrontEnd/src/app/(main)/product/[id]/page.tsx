@@ -13,6 +13,7 @@ import { useCart } from "@/context/CartContext";
 import ColorsList from "@/components/UI/ColorsList/ColorsList";
 import SizeButton from "@/components/UI/SizeButton/SizeButton";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -62,8 +63,7 @@ const ProductDetails = () => {
         return null;
     }
   };
-
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!selectedColor) {
       Swal.fire({
         icon: "warning",
@@ -74,22 +74,55 @@ const ProductDetails = () => {
       return;
     }
 
-    addToCart({
-      id: product.id,
+    const token = localStorage.getItem("token");
+
+    console.log("🛡️ Token đang dùng:", token); // ✅ Xem token trước khi gọi
+
+    if (!token) {
+      Swal.fire({
+        icon: "error",
+        title: "You must be logged in to add to cart!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
+
+    const cartItem = {
+      product_id: product.id,
       name: product.name,
       size: selectedSize,
       color: selectedColor,
       price: Number(product.price),
       quantity,
       image: product.image,
-    });
+    };
 
-    Swal.fire({
-      icon: "success",
-      title: "Added to cart!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    try {
+      await axios.post("http://localhost:8000/api/cart/", cartItem, {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ phải là Bearer
+        },
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Added to cart!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      // Optional: cập nhật context nếu muốn giữ dữ liệu local
+      addToCart({ ...cartItem, id: product.id });
+    } catch (error) {
+      console.error("❌ Add to cart failed:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed to add to cart",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (
