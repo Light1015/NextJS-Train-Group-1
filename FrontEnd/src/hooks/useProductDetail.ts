@@ -10,7 +10,7 @@ const useProductDetail = (id: number) => {
   useEffect(() => {
     if (!id) return;
 
-      axios.get(`${API_BASE}/product/products/${id}/`)
+      axios.get(`${API_BASE}/product/${id}/`)
       .then((res) => {
         setProduct(res.data as Product);
         setLoading(false);

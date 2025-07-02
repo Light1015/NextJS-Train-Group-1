@@ -130,8 +130,13 @@ SIMPLE_JWT = {
 
 if os.getenv("DATABASE_URL"):
     DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+        'default': dj_database_url.config(
+            default='postgresql://user:hEwoUEbuiMcFu6ukkD2uHcj1mWDYPncH@dpg-d1ikaa6r433s73apssig-a/product_6079',
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
+
 else:
     DATABASES = {
         'default': {
