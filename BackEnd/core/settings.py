@@ -128,20 +128,21 @@ SIMPLE_JWT = {
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'product',
-    #     'USER': 'postgres',
-    #     'PASSWORD': '1',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
-    'default': dj_database_url.config(
-        default='postgres://postgres:1@localhost:5432/product',
-        conn_max_age=600
-    )
-}
+if os.getenv("DATABASE_URL"):
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'product',
+            'USER': 'postgres',
+            'PASSWORD': '1',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
