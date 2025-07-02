@@ -19,8 +19,13 @@ from django.urls import include, path
 from drf_spectacular import views as spectacular_views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import JsonResponse 
+
+def root_view(request):
+    return JsonResponse({"message": "Django backend is live!"})
 
 urlpatterns = [
+    path('', root_view), 
     path('admin/', admin.site.urls),
     path('product/', include('products.urls')),
     path('api/accounts/', include('accounts.urls')),
