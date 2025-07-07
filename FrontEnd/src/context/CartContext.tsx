@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useCartFetchFromAPI, CartItem } from '@/hooks/useCartFetchFromAPI';
 
@@ -13,16 +13,7 @@ interface CartContextProps {
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const { items: fetchedItems, setItems, loading } = useCartFetchFromAPI();
-  const [items, setLocalItems] = useState<CartItem[]>([]);
-
-  useEffect(() => {
-    if (!loading) {
-      console.log("✅ fetchedItems from API:", fetchedItems);
-      setLocalItems(fetchedItems);
-    }
-  }, [fetchedItems, loading]);
-
+  const { items, setItems, loading } = useCartFetchFromAPI();
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   console.log("🛡️ Token đang dùng:", token);
 
@@ -33,38 +24,23 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await axios.post<CartItem>(
         "http://localhost:8000/api/cart/",
         {
-          product: newItem.product_id, // ✅ BẮT BUỘC phải dùng "product"
+          product: newItem.product_id,
+          name: newItem.name,
+          price: newItem.price,
           size: newItem.size,
           color: newItem.color,
           quantity: newItem.quantity,
+          image: newItem.image,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      // ✅ Nếu sản phẩm đã tồn tại, update lại item đó, không thêm mới
-      setLocalItems(prev => {
-        const exists = prev.find(
-          item =>
-            item.product_id === newItem.product_id &&
-            item.size === newItem.size &&
-            item.color === newItem.color
-        );
-        if (exists) {
-          return prev.map(item =>
-            item.product_id === newItem.product_id &&
-              item.size === newItem.size &&
-              item.color === newItem.color
-              ? { ...item, quantity: item.quantity + newItem.quantity }
-              : item
-          );
-        } else {
-          return [...prev, res.data];
-        }
-      });
+      // ✅ Cập nhật danh sách item sau khi thêm
+      setItems((prev) => [...prev, res.data]);
     } catch (err) {
-      console.error("Add to cart failed:", err);
+      console.error("❌ Add to cart failed:", err);
     }
   };
 
@@ -74,7 +50,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const existing = items.find(
       item => item.id === id && item.size === size && item.color === color
     );
-
     if (!existing) return;
 
     const newQty = Math.max(1, existing.quantity + amount);
@@ -85,11 +60,16 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         { quantity: newQty },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setLocalItems(prev =>
-        prev.map(item => item.id === id ? res.data : item)
+
+      setItems(prev =>
+        prev.map(item =>
+          item.id === id && item.size === size && item.color === color
+            ? res.data
+            : item
+        )
       );
     } catch (err) {
-      console.error("Update quantity failed:", err);
+      console.error("❌ Update quantity failed:", err);
     }
   };
 
@@ -101,11 +81,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setLocalItems(prev =>
-        prev.filter(item => !(item.id === id && item.size === size && item.color === color))
+      setItems(prev =>
+        prev.filter(item =>
+          !(item.id === id && item.size === size && item.color === color)
+        )
       );
     } catch (err) {
-      console.error("Remove item failed:", err);
+      console.error("❌ Remove item failed:", err);
     }
   };
 

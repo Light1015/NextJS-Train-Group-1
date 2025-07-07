@@ -75,9 +75,6 @@ const ProductDetails = () => {
     }
 
     const token = localStorage.getItem("token");
-
-    console.log("🛡️ Token đang dùng:", token); // ✅ Xem token trước khi gọi
-
     if (!token) {
       Swal.fire({
         icon: "error",
@@ -88,21 +85,16 @@ const ProductDetails = () => {
       return;
     }
 
-    const cartItem = {
-      product_id: product.id,
-      name: product.name,
-      size: selectedSize,
-      color: selectedColor,
-      price: Number(product.price),
-      quantity,
-      image: product.image,
-    };
-
     try {
-      await axios.post("http://localhost:8000/api/cart/", cartItem, {
-        headers: {
-          Authorization: `Bearer ${token}`, // ✅ phải là Bearer
-        },
+      await addToCart({
+        id: 0, // ID sẽ do backend tự tạo
+        product_id: product.id,
+        name: product.name,
+        size: selectedSize,
+        color: selectedColor,
+        price: Number(product.price),
+        quantity,
+        image: product.image,
       });
 
       Swal.fire({
@@ -112,8 +104,9 @@ const ProductDetails = () => {
         timer: 1500,
       });
 
-      // Optional: cập nhật context nếu muốn giữ dữ liệu local
-      addToCart({ ...cartItem, id: product.id });
+      // ✅ Nếu muốn chuyển sang giỏ hàng:
+      // router.push('/cart');
+
     } catch (error) {
       console.error("❌ Add to cart failed:", error);
       Swal.fire({
@@ -124,6 +117,7 @@ const ProductDetails = () => {
       });
     }
   };
+
 
   return (
     <>
@@ -194,6 +188,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+
 
       <div className={styles.tabWrapper}>
         <button

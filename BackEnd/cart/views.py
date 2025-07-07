@@ -13,15 +13,20 @@ class CartListCreateView(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         user = request.user
-        product = request.data.get("product")
+        product_id = request.data.get("product")
         size = request.data.get("size")
         color = request.data.get("color")
         quantity = int(request.data.get("quantity", 1))
 
-        # Kiểm tra item đã có chưa
+    # Chuyển product_id thành int và dùng để filter
+        try:
+            product_id = int(product_id)
+        except (TypeError, ValueError):
+            return Response({"detail": "Invalid product ID."}, status=status.HTTP_400_BAD_REQUEST)
+
         existing_item = CartItem.objects.filter(
             user=user,
-            product_id=product,
+            product=product_id,  # ✅ đúng kiểu ForeignKey
             size=size,
             color=color
         ).first()
@@ -32,12 +37,14 @@ class CartListCreateView(generics.ListCreateAPIView):
             serializer = self.get_serializer(existing_item)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        # Nếu chưa có, tạo mới
+    # Nếu chưa có, tạo mới
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        if not serializer.is_valid():
+            print("❌ Serializer lỗi:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         serializer.save(user=user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
 
 class CartDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CartItemSerializer

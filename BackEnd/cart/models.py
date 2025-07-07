@@ -1,10 +1,11 @@
 # cart/models.py
 from django.db import models
 from django.conf import settings
+from products.models import Product
 
 class CartItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart_items')
-    product_id = models.IntegerField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cart_items')
     name = models.CharField(max_length=255)
     color = models.CharField(max_length=50)
     size = models.CharField(max_length=50)
