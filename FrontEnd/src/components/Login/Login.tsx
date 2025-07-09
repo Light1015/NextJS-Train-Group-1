@@ -36,12 +36,14 @@ export const saveSession = (accessToken: string, refreshToken: string, user: Use
         loginTime: new Date().getTime(),
         expiresIn: 24 * 60 * 60 * 1000, // 24 hours
     };
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     localStorage.setItem('userSession', JSON.stringify(sessionData));
     localStorage.setItem('token', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('user', JSON.stringify(user));
 };
 export const setupAxiosInterceptor = (token: string) => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios.interceptors.response.use(
         (response) => response,
@@ -53,7 +55,7 @@ export const setupAxiosInterceptor = (token: string) => {
                     const refreshToken = localStorage.getItem('refreshToken');
                     if (refreshToken) {
                         const refreshResponse = await axios.post<any>(
-                            'http://localhost:8000/api/accounts/refresh/',
+                            `${apiUrl}/accounts/refresh/`,
                             { refresh: refreshToken }
                         );
                         const newAccessToken = refreshResponse.data.access;

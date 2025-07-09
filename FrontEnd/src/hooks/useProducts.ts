@@ -21,9 +21,10 @@ export interface ProductItem {
 export const useProducts = () => {
   const [products, setProducts] = useState<ProductItem[]>([])
   const [loading, setLoading] = useState(true)
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API}/products/`)
+    axios.get(`${apiUrl}/products/`)
       .then(res => {
         const data = res.data as { results: ProductItem[] }
         setProducts(data.results)

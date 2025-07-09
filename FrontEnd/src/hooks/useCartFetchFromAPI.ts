@@ -22,7 +22,7 @@ interface CartAPIResponse {
 export const useCartFetchFromAPI = () => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   useEffect(() => {
     const fetchCart = async () => {
       const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -33,7 +33,7 @@ export const useCartFetchFromAPI = () => {
 
       try {
         const res = await axios.get<CartAPIResponse>(
-          `${process.env.NEXT_PUBLIC_API}/cart/`,
+          `${apiUrl}/cart/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

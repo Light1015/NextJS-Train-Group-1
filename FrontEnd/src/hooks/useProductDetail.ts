@@ -6,11 +6,12 @@ const useProductDetail = (id: number) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     if (!id) return;
 
-    axios.get(`${process.env.NEXT_PUBLIC_API}/products/${id}/`)
+    axios.get(`${apiUrl}/products/${id}/`)
       .then((res) => {
         setProduct(res.data as Product);
         setLoading(false);
