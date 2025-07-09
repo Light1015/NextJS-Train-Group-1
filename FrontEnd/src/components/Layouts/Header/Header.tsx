@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
 import { useRouter } from 'next/navigation';
 import { MdMenu, MdSearch } from 'react-icons/md';
 import { IoClose } from 'react-icons/io5';
@@ -13,6 +14,7 @@ import Dropdown from '@/components/UI/Dropdown/Dropdown';
 import LoginPopup, { getCurrentUser, logout } from '@/components/Login/Login';
 import RegisterPopup from '@/components/RegisterPopup/RegisterPopup';
 import InputField from '@/components/UI/InputField/InputField';
+
 import { useProducts } from '@/hooks/useProducts';
 import { Product } from "@/types/product.types";
 
