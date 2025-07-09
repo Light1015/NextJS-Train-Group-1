@@ -142,11 +142,12 @@ const LoginPopup = ({ onClose, onSwitchToRegister, onLoginSuccess }: LoginPopupP
                     title: 'Success!',
                     text: `Welcome back, ${userInfo.name || userInfo.email}!`,
                     icon: 'success',
-                    timer: 2000,
+                    timer: 1500,
                     showConfirmButton: false
+                }).then(() => {
+                    window.location.reload(); // ✅ Reload ngay sau thông báo
                 });
 
-                onClose();
             } else {
                 console.error('API Response structure:', data);
                 throw new Error('No access token received from API');

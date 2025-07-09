@@ -13,6 +13,7 @@ import { useCart } from "@/context/CartContext";
 import ColorsList from "@/components/UI/ColorsList/ColorsList";
 import SizeButton from "@/components/UI/SizeButton/SizeButton";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -62,8 +63,7 @@ const ProductDetails = () => {
         return null;
     }
   };
-
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!selectedColor) {
       Swal.fire({
         icon: "warning",
@@ -74,23 +74,50 @@ const ProductDetails = () => {
       return;
     }
 
-    addToCart({
-      id: product.id,
-      name: product.name,
-      size: selectedSize,
-      color: selectedColor,
-      price: Number(product.price),
-      quantity,
-      image: product.image,
-    });
+    const token = localStorage.getItem("token");
+    if (!token) {
+      Swal.fire({
+        icon: "error",
+        title: "You must be logged in to add to cart!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      return;
+    }
 
-    Swal.fire({
-      icon: "success",
-      title: "Added to cart!",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    try {
+      await addToCart({
+        id: 0, // ID sẽ do backend tự tạo
+        product_id: product.id,
+        name: product.name,
+        size: selectedSize,
+        color: selectedColor,
+        price: Number(product.price),
+        quantity,
+        image: product.image,
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Added to cart!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      // ✅ Nếu muốn chuyển sang giỏ hàng:
+      // router.push('/cart');
+
+    } catch (error) {
+      console.error("❌ Add to cart failed:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed to add to cart",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
+
 
   return (
     <>
@@ -161,6 +188,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+
 
       <div className={styles.tabWrapper}>
         <button

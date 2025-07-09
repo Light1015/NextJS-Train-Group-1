@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'products',
     'corsheaders',
     'accounts',
+    'cart',
 ]
 AUTH_USER_MODEL = 'accounts.CustomUser'
 MIDDLEWARE = [
