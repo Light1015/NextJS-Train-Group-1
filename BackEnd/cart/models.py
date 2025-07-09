@@ -5,7 +5,8 @@ from products.models import Product
 
 class CartItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart_items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cart_items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cart_items', default=1)
+
     name = models.CharField(max_length=255)
     color = models.CharField(max_length=50)
     size = models.CharField(max_length=50)

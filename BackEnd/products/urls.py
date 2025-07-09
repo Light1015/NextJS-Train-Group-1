@@ -6,5 +6,5 @@ router = DefaultRouter()
 router.register(r'', ProductViewSet, basename='product')
 
 urlpatterns = [
-    path('products/', include(router.urls)),
+    path('', include(router.urls)),
 ]

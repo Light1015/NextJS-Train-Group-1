@@ -159,7 +159,7 @@ const ProductDetails = () => {
           <div className={styles.section}>
             <h4>Selected Colors</h4>
             <ColorsList
-              colors={product.colors.map((c) => c.name)}
+              colors={product.colors.map((c) => typeof c === "string" ? c : c.name)}
               selectedColor={selectedColor}
               setSelectedColor={setSelectedColor}
             />
@@ -168,7 +168,7 @@ const ProductDetails = () => {
           <div className={styles.section}>
             <h4>Choose Size</h4>
             <SizeButton
-              sizes={product.sizes.map((s) => s.name)}
+              sizes={product.sizes.map((s) => typeof s === "string" ? s : s.name)}
               selectedSize={selectedSize}
               setSelectedSize={setSelectedSize}
             />

@@ -61,13 +61,20 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
                                     id: product.id,
                                     name: product.name,
                                     image: product.srcUrl,
-                                    price: product.price, 
-                                    oldPrice: product.discount && product.discount.percentage > 0
-                                        ? Math.round(product.price / (1 - product.discount.percentage / 100))
-                                        : undefined,
+                                    price: Number(product.price), 
+                                    old_price:
+                                        product.discount &&
+                                        typeof product.discount === "object" &&
+                                        "percentage" in product.discount &&
+                                        (product.discount as { percentage: number }).percentage > 0
+                                            ? Math.round(Number(product.price) / (1 - (product.discount as { percentage: number }).percentage / 100))
+                                            : undefined,
                                     discount:
-                                        product.discount && product.discount.percentage > 0
-                                            ? `${product.discount.percentage}%`
+                                        product.discount &&
+                                        typeof product.discount === "object" &&
+                                        "percentage" in product.discount &&
+                                        (product.discount as { percentage: number }).percentage > 0
+                                            ? `${(product.discount as { percentage: number }).percentage}%`
                                             : undefined,
                                     rating: product.rating,
                                 }}
@@ -99,13 +106,25 @@ const ProductListSec = ({ title, data, viewAllLink }: ProductListSecProps) => {
                                 id: product.id,
                                 name: product.name,
                                 image: product.srcUrl,
-                                price: product.price, 
-                                oldPrice: product.discount && product.discount.percentage > 0
-                                    ? Math.round(product.price / (1 - product.discount.percentage / 100))
-                                    : undefined,
+                                price: Number(product.price), 
+                                old_price:
+                                    product.discount &&
+                                    typeof product.discount === "object" &&
+                                    "percentage" in product.discount &&
+                                    (product.discount as { percentage: number }).percentage > 0
+                                        ? Math.round(
+                                              Number(product.price) /
+                                                  (1 -
+                                                      (product.discount as { percentage: number }).percentage /
+                                                          100)
+                                          )
+                                        : undefined,
                                 discount:
-                                    product.discount && product.discount.percentage > 0
-                                        ? `${product.discount.percentage}%`
+                                    product.discount &&
+                                    typeof product.discount === "object" &&
+                                    "percentage" in product.discount &&
+                                    (product.discount as { percentage: number }).percentage > 0
+                                        ? `${(product.discount as { percentage: number }).percentage}%`
                                         : undefined,
                                 rating: product.rating,
                             }}

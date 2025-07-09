@@ -63,7 +63,8 @@ const Header = () => {
           price: typeof product.price === 'string' ? Number(product.price) : product.price,
           old_price: product.old_price !== undefined && typeof product.old_price === 'string'
             ? Number(product.old_price)
-            : product.old_price
+            : product.old_price,
+          srcUrl: (product as any).srcUrl ?? (typeof product.image === 'string' ? product.image : '')
         }));
       setFilteredProducts(filtered);
     }

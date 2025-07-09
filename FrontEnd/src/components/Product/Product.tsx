@@ -24,7 +24,7 @@ const Product = () => {
                                 name: product.name,
                                 image: product.image,
                                 price: numericPrice,
-                                oldPrice: undefined,
+                                old_price: undefined,
                                 discount: undefined,
                                 rating: product.rating,
                             }}
