@@ -10,7 +10,7 @@ const useProductDetail = (id: number) => {
   useEffect(() => {
     if (!id) return;
 
-    axios.get(`http://localhost:8000/product/products/${id}/`)
+    axios.get(`${process.env.NEXT_PUBLIC_API}/products/${id}/`)
       .then((res) => {
         setProduct(res.data as Product);
         setLoading(false);

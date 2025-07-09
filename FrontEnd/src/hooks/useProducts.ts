@@ -23,7 +23,7 @@ export const useProducts = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    axios.get('http://localhost:8000/product/products/')
+    axios.get(`${process.env.NEXT_PUBLIC_API}/products/`)
       .then(res => {
         const data = res.data as { results: ProductItem[] }
         setProducts(data.results)
