@@ -8,43 +8,66 @@ interface ColorsListProps {
   setSelectedColor: (color: string) => void;
 }
 
-function isValidColor(color: string): boolean {
-  const s = new Option().style;
-  s.color = color;
-  return s.color !== "";
+function darkenColor(color: string, percent: number) {
+  try {
+    const ctx = document.createElement("canvas").getContext("2d");
+    if (!ctx) return color;
+    ctx.fillStyle = color;
+    const rgb = ctx.fillStyle;
+
+    const hex = rgbToHex(rgb);
+    const r = Math.floor(parseInt(hex.substring(1, 3), 16) * (1 - percent));
+    const g = Math.floor(parseInt(hex.substring(3, 5), 16) * (1 - percent));
+    const b = Math.floor(parseInt(hex.substring(5, 7), 16) * (1 - percent));
+
+    return `rgb(${r}, ${g}, ${b})`;
+  } catch {
+    return color;
+  }
 }
 
-const ColorsList = ({ colors, selectedColor, setSelectedColor }: ColorsListProps) => {
+function rgbToHex(rgb: string) {
+  const result = rgb.match(/\d+/g);
+  if (!result) return rgb;
   return (
-    <div className="flex flex-wrap gap-4 mt-2 pb-4">
+    "#" +
+    result
+      .slice(0, 3)
+      .map((x) => {
+        const hex = parseInt(x).toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      })
+      .join("")
+  );
+}
+
+function ColorsList({ colors, selectedColor, setSelectedColor }: ColorsListProps) {
+  return (
+    <div className="flex flex-wrap gap-[1rem] mt-2 pb-4">
       {colors.map((color) => {
         const isSelected = selectedColor === color;
-        const valid = isValidColor(color);
 
-        const border =
-          isSelected
-            ? "1.5px solid black"
-            : color.toLowerCase() === "white"
-            ? "1.5px solid #ccc"
-            : "none";
+        let borderStyle = "none";
+        if (isSelected) {
+          borderStyle = "1px solid black";
+        } else if (color.toLowerCase() === "white") {
+          borderStyle = "1.5px solid #ccc";
+        }
 
         return (
           <button
             key={color}
-            onClick={() => setSelectedColor(isSelected ? "" : color)}
-            className="w-6 h-6 rounded-full transition-all duration-300 outline-none ring-offset-2 flex items-center justify-center"
+            onClick={() => setSelectedColor(selectedColor === color ? "" : color)}
+            className="w-6 h-6 rounded-full transition-all duration-300 outline-none ring-offset-2 relative flex items-center justify-center"
             style={{
-              backgroundColor: valid ? color : "#ccc",
-              border,
+              backgroundColor: color,
+              border: borderStyle,
             }}
             aria-label={`Select ${color}`}
-            title={color}
           >
             {isSelected && (
               <span
-                className={`text-[10px] font-bold ${
-                  color.toLowerCase() === "white" ? "text-black" : "text-white"
-                }`}
+                className={`text-[10px] font-bold ${color.toLowerCase() === "white" ? "text-black" : "text-white"}`}
               >
                 ✔
               </span>
@@ -54,6 +77,6 @@ const ColorsList = ({ colors, selectedColor, setSelectedColor }: ColorsListProps
       })}
     </div>
   );
-};
+}
 
 export default ColorsList;

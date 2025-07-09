@@ -16,23 +16,14 @@ export default function Breadcrumbs() {
 
         if (isProductDetail) {
             const productId = pathParts[1];
-
-            // 👉 Đổi link API cho phù hợp môi trường thực tế
-            const apiUrl = `https://your-api-domain.com/product/products/${productId}/`;
-
-            fetch(apiUrl)
-                .then((res) => {
-                    if (!res.ok) {
-                        throw new Error(`HTTP error! status: ${res.status}`);
-                    }
-                    return res.json();
-                })
+            fetch(`http://localhost:8000/product/products/${productId}/`)
+                .then((res) => res.json())
                 .then((data) => {
-                    setProductName(data.name || '');
-                    setCategoryName(data.category?.name || 'Category');
+                    setProductName(data.name);
+                    setCategoryName(data.category?.name ?? 'Category');
                 })
                 .catch((err) => {
-                    console.error('❌ Failed to load product for breadcrumbs', err);
+                    console.error('Failed to load product for breadcrumbs', err);
                 });
         }
     }, [pathname]);
@@ -48,10 +39,7 @@ export default function Breadcrumbs() {
 
             {isProductPage ? (
                 <>
-                    <Link
-                        href={`/category/${categoryName.toLowerCase()}`}
-                        className="text-[#666] hover:underline text-[16px] font-[Satoshi]"
-                    >
+                    <Link href={`/category/${categoryName.toLowerCase()}`} className="text-[#666] hover:underline text-[16px] font-[Satoshi]">
                         {categoryName}
                     </Link>
                     <span className="mx-2 text-[#999]">›</span>
@@ -60,19 +48,14 @@ export default function Breadcrumbs() {
             ) : (
                 pathParts.map((part, index) => {
                     const href = '/' + pathParts.slice(0, index + 1).join('/');
-                    const label = decodeURIComponent(part)
-                        .replace(/-/g, ' ')
-                        .replace(/\b\w/g, (c) => c.toUpperCase());
+                    const label = decodeURIComponent(part).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
                     const isLast = index === pathParts.length - 1;
 
                     return (
                         <span key={href} className="flex items-center">
                             {!isLast ? (
                                 <>
-                                    <Link
-                                        href={href}
-                                        className="text-[#666] hover:underline text-[16px] font-[Satoshi]"
-                                    >
+                                    <Link href={href} className="text-[#666] hover:underline text-[16px] font-[Satoshi]">
                                         {label}
                                     </Link>
                                     <span className="mx-2 text-[#999]">›</span>
