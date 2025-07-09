@@ -70,10 +70,7 @@ const SidebarFilter = ({ showSideBar, setshowSideBar, selectedColor, setSelected
                         className="hidden md:block"
                     />
                 </div>
-
             </div>
-
-
 
             {/* Categories */}
             <div className="py-3 border-b border-gray-200">
