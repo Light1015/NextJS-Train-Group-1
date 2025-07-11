@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext } from 'react';
 import axios from 'axios';
+import api from '@/hooks/axiosInstance';
 import { useCartFetchFromAPI, CartItem } from '@/hooks/useCartFetchFromAPI';
 
 interface CartContextProps {
@@ -27,8 +28,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (!token) return;
 
     try {
-      const res = await axios.post<CartItem>(
-        `${apiUrl}/cart/`,
+      const res = await api.post<CartItem>(
+        `/api/cart/`,
         {
           product: newItem.product_id,
           name: newItem.name,
@@ -60,8 +61,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const newQty = Math.max(1, existing.quantity + amount);
 
     try {
-      const res = await axios.put<CartItem>(
-        `${apiUrl}/api/cart/${id}/`,
+      const res = await api.put<CartItem>(
+        `/api/cart/${id}/`,
         { quantity: newQty },
         { headers: commonHeaders }
       );
@@ -80,7 +81,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (!token) return;
 
     try {
-      await axios.delete(`${apiUrl}/api/cart/${id}/`, {
+      await api.delete(`/api/cart/${id}/`, {
         headers: commonHeaders,
       });
 
