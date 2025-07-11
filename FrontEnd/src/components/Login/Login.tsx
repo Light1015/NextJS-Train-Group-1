@@ -115,7 +115,7 @@ const LoginPopup = ({ onClose, onSwitchToRegister, onLoginSuccess }: LoginPopupP
     setIsLoading(true);
 
     try {
-      const res = await api.post<LoginResponse>('/api/accounts/login/', { email, password });
+      const res = await api.post<LoginResponse>('/accounts/login/', { email, password });
       const data = res.data;
 
       const accessToken = data.access || data.token;

@@ -29,7 +29,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const res = await api.post<CartItem>(
-        `/api/cart/`,
+        `/cart/`,
         {
           product: newItem.product_id,
           name: newItem.name,
@@ -62,7 +62,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const res = await api.put<CartItem>(
-        `/api/cart/${id}/`,
+        `/cart/${id}/`,
         { quantity: newQty },
         { headers: commonHeaders }
       );
@@ -81,7 +81,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (!token) return;
 
     try {
-      await api.delete(`/api/cart/${id}/`, {
+      await api.delete(`/cart/${id}/`, {
         headers: commonHeaders,
       });
 

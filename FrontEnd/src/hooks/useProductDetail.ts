@@ -11,7 +11,7 @@ const useProductDetail = (id: number) => {
  useEffect(() => {
   if (!id) return;
 
-  axios.get(`${apiUrl}/api/products/${id}/`, {
+  axios.get(`${apiUrl}/products/${id}/`, {
     headers: {
       "ngrok-skip-browser-warning": "true"
     }

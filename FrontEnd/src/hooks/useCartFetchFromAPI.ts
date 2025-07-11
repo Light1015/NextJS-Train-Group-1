@@ -33,7 +33,7 @@ export const useCartFetchFromAPI = () => {
 
     try {
       const res = await axios.get<CartAPIResponse>(
-        `${apiUrl}/api/cart/`,
+        `${apiUrl}/cart/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

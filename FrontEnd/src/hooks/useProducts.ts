@@ -24,7 +24,7 @@ export const useProducts = () => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
 useEffect(() => {
-  axios.get(`${apiUrl}/api/products/`, {
+  axios.get(`${apiUrl}/products/`, {
       headers: {
         "ngrok-skip-browser-warning": "true"
       }
