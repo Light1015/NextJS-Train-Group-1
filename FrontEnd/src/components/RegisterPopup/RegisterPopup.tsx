@@ -124,7 +124,7 @@ const RegisterPopup = ({ onClose, onSwitchToLogin }: RegisterPopupProps) => {
 
     try {
       // ✅ 1. Gọi API đăng ký
-      await api.post('/accounts/register/', {
+      await api.post('/api/accounts/register/', {
         email: email.trim().toLowerCase(),
         full_name: `${firstName.trim()} ${lastName.trim()}`,
         password,
@@ -132,7 +132,7 @@ const RegisterPopup = ({ onClose, onSwitchToLogin }: RegisterPopupProps) => {
       });
 
       // ✅ 2. Tự động đăng nhập sau khi đăng ký
-      const loginRes = await api.post<LoginResponse>('/accounts/login/', {
+      const loginRes = await api.post<LoginResponse>('/api/accounts/login/', {
         email: email.trim().toLowerCase(),
         password,
       });
