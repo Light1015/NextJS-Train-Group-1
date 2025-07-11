@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+from corsheaders.defaults import default_headers
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -171,7 +173,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     # "http://localhost:3000",
@@ -179,11 +181,12 @@ CORS_ALLOWED_ORIGINS = [
     "https://next-js-train-group-1.vercel.app",
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://site.lv', 'https://www.site.lv']
+CSRF_TRUSTED_ORIGINS = ['https://site.lv', 'https://www.site.lv', 'https://next-js-train-group-1.vercel.app']
 
-CORS_ALLOW_HEADERS = [
+CORS_ALLOW_HEADERS = list(default_headers) + [
     'ngrok-skip-browser-warning',
 ]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
