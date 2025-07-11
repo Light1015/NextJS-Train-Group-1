@@ -61,7 +61,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const res = await axios.put<CartItem>(
-        `${apiUrl}/cart/${id}/`,
+        `${apiUrl}/api/cart/${id}/`,
         { quantity: newQty },
         { headers: commonHeaders }
       );
