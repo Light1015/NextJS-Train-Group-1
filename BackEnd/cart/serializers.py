@@ -4,7 +4,7 @@ from products.models import Product  # nếu cần
 
 class CartItemSerializer(serializers.ModelSerializer):
     product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())  # ✅ Sửa tại đây
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())  # ✅ Sửa tại đzây
 
     class Meta:
         model = CartItem

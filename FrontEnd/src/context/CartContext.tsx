@@ -55,23 +55,25 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const newQty = Math.max(1, existing.quantity + amount);
 
     try {
-      const res = await axios.put<CartItem>(
+      const res = await axios.patch<CartItem>(  // ✅ Đổi từ PUT ➜ PATCH
         `http://localhost:8000/api/cart/${id}/`,
-        { quantity: newQty },
+        { quantity: newQty },  // ✅ Chỉ gửi quantity
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      // ✅ Cập nhật local state
       setItems(prev =>
         prev.map(item =>
           item.id === id && item.size === size && item.color === color
-            ? res.data
+            ? { ...item, quantity: res.data.quantity }
             : item
         )
       );
-    } catch (err) {
-      console.error("❌ Update quantity failed:", err);
+    } catch (err: any) {
+      console.error("❌ Update quantity failed:", err.response?.data || err);
     }
   };
+
 
   const removeItem = async (id: number, size: string, color: string) => {
     if (!token) return;

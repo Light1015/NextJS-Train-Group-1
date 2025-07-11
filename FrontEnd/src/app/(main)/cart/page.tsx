@@ -9,17 +9,22 @@ import QuantityCounter from '@/components/UI/QuantityCounter/QuantityCounter';
 import InputField from '@/components/UI/InputField/InputField';
 import Button from '@/components/UI/Button/Button';
 import { useCart } from '@/context/CartContext';
+import { useMemo } from 'react';
 
 function Cart() {
     const { items, removeItem, updateQuantity } = useCart();
+    console.log("🛒 Items in cart:", items);
 
     if (!Array.isArray(items)) return <div className="text-center py-20">Loading...</div>;
 
-    const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const discount = subtotal * 0.2;
-    const deliveryFee = 15;
-    const total = subtotal - discount + deliveryFee;
+    const subtotal = useMemo(() => {
+        return items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    }, [items]);
 
+    console.log("💰 Subtotal:", subtotal);
+    const discount = useMemo(() => subtotal * 0.2, [subtotal]);
+    const deliveryFee = 15;
+    const total = useMemo(() => subtotal - discount + deliveryFee, [subtotal, discount]);
     return (
         <div className="p- container mx-auto">
             <Title title="your cart" classes="text-left mb-5" />
