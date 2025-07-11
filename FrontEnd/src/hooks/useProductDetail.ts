@@ -8,20 +8,24 @@ const useProductDetail = (id: number) => {
   const [error, setError] = useState('');
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  useEffect(() => {
-    if (!id) return;
+ useEffect(() => {
+  if (!id) return;
 
-    axios.get(`${apiUrl}/products/${id}/`)
-      .then((res) => {
-        setProduct(res.data as Product);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Failed to load product:', err);
-        setError('Failed to load product');
-        setLoading(false);
-      });
-  }, [id]);
+  axios.get(`${apiUrl}/products/${id}/`, {
+    headers: {
+      "ngrok-skip-browser-warning": "true"
+    }
+  })
+  .then((res) => {
+    setProduct(res.data as Product);
+    setLoading(false);
+  })
+  .catch((err) => {
+    console.error('Failed to load product:', err);
+    setError('Failed to load product');
+    setLoading(false);
+  });
+}, [id]);
 
   return { product, loading, error };
 };

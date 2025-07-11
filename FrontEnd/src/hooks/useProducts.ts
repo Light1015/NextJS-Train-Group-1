@@ -23,18 +23,23 @@ export const useProducts = () => {
   const [loading, setLoading] = useState(true)
   const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
-  useEffect(() => {
-    axios.get(`${apiUrl}/products/`)
-      .then(res => {
-        const data = res.data as { results: ProductItem[] }
-        setProducts(data.results)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error("Error loading products:", err)
-        setLoading(false)
-      })
-  }, [])
+useEffect(() => {
+  axios.get(`${apiUrl}/products/`, {
+    headers: {
+      "ngrok-skip-browser-warning": "true"
+    }
+  })
+  .then(res => {
+    const data = res.data as { results: ProductItem[] }
+    setProducts(data.results)
+    setLoading(false)
+  })
+  .catch(err => {
+    console.error("Error loading products:", err)
+    setLoading(false)
+  })
+}, [])
+
 
   return { products, loading }
 }

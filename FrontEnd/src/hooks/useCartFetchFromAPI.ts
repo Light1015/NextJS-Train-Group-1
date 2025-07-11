@@ -23,33 +23,34 @@ export const useCartFetchFromAPI = () => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  useEffect(() => {
-    const fetchCart = async () => {
-      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-      if (!token) {
-        setLoading(false);
-        return;
-      }
+ useEffect(() => {
+  const fetchCart = async () => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
-      try {
-        const res = await axios.get<CartAPIResponse>(
-          `${apiUrl}/cart/`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setItems(res.data.results);
-      } catch (err) {
-        console.error("❌ Error fetching cart:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    try {
+      const res = await axios.get<CartAPIResponse>(
+        `${apiUrl}/cart/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true"
+          },
+        }
+      );
+      setItems(res.data.results);
+    } catch (err) {
+      console.error("❌ Error fetching cart:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchCart();
-  }, []);
+  fetchCart();
+}, []);
 
   return { items, setItems, loading };
 };
