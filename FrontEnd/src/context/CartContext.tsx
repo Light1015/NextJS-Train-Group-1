@@ -80,7 +80,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (!token) return;
 
     try {
-      await axios.delete(`${apiUrl}/cart/${id}/`, {
+      await axios.delete(`${apiUrl}/api/cart/${id}/`, {
         headers: commonHeaders,
       });
 
