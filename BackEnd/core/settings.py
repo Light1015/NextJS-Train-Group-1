@@ -176,7 +176,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     # "http://localhost:3000",
     # "http://127.0.0.1:3000",
-    # "https://next-js-train-group-1.vercel.app",
+    "https://next-js-train-group-1.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://site.lv', 'https://www.site.lv']

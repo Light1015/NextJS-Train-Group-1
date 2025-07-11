@@ -1,4 +1,5 @@
 'use client';
+
 import React, { createContext, useContext } from 'react';
 import axios from 'axios';
 import { useCartFetchFromAPI, CartItem } from '@/hooks/useCartFetchFromAPI';
@@ -14,10 +15,13 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { items, setItems, loading } = useCartFetchFromAPI();
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  console.log("🛡️ Token đang dùng:", token);
+  const commonHeaders = {
+    Authorization: `Bearer ${token}`,
+    'ngrok-skip-browser-warning': 'true',
+  };
 
   const addToCart = async (newItem: CartItem) => {
     if (!token) return;
@@ -35,13 +39,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           image: newItem.image,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: commonHeaders,
         }
       );
 
       setItems((prev) => [...prev, res.data]);
     } catch (err) {
-      console.error("❌ Add to cart failed:", err);
+      console.error('❌ Add to cart failed:', err);
     }
   };
 
@@ -49,7 +53,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (!token) return;
 
     const existing = items.find(
-      item => item.id === id && item.size === size && item.color === color
+      (item) => item.id === id && item.size === size && item.color === color
     );
     if (!existing) return;
 
@@ -59,18 +63,16 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await axios.put<CartItem>(
         `${apiUrl}/cart/${id}/`,
         { quantity: newQty },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: commonHeaders }
       );
 
-      setItems(prev =>
-        prev.map(item =>
-          item.id === id && item.size === size && item.color === color
-            ? res.data
-            : item
+      setItems((prev) =>
+        prev.map((item) =>
+          item.id === id && item.size === size && item.color === color ? res.data : item
         )
       );
     } catch (err) {
-      console.error("❌ Update quantity failed:", err);
+      console.error('❌ Update quantity failed:', err);
     }
   };
 
@@ -79,16 +81,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       await axios.delete(`${apiUrl}/cart/${id}/`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: commonHeaders,
       });
 
-      setItems(prev =>
-        prev.filter(item =>
-          !(item.id === id && item.size === size && item.color === color)
-        )
+      setItems((prev) =>
+        prev.filter((item) => !(item.id === id && item.size === size && item.color === color))
       );
     } catch (err) {
-      console.error("❌ Remove item failed:", err);
+      console.error('❌ Remove item failed:', err);
     }
   };
 
@@ -102,7 +102,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
+    throw new Error('useCart must be used within a CartProvider');
   }
   return context;
 };
