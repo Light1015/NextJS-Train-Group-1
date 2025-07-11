@@ -121,20 +121,21 @@ const RegisterPopup = ({ onClose, onSwitchToLogin }: RegisterPopupProps) => {
         setErrors(prev => ({ ...prev, [fieldName]: '' }));
     };
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateForm()) return;
 
         try {
             // 1. Đăng ký tài khoản
-            await axios.post('http://localhost:8000/api/accounts/register/', {
+            await axios.post(`${apiUrl}/accounts/register/`, {
                 email: email.trim().toLowerCase(),
                 full_name: `${firstName} ${lastName}`,
                 password,
                 confirm_password: confirmPassword,
             });
 
-            const loginResponse = await axios.post('http://localhost:8000/api/accounts/login/', {
+            const loginResponse = await axios.post(`${apiUrl}/accounts/login/`, {
                 email: email.trim().toLowerCase(),
                 password: password,
             });

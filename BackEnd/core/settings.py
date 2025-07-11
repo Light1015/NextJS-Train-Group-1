@@ -174,12 +174,16 @@ USE_TZ = True
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://next-js-train-group-1.vercel.app",
+    # "http://localhost:3000",
+    # "http://127.0.0.1:3000",
+    # "https://next-js-train-group-1.vercel.app",
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://site.lv', 'https://www.site.lv']
 
+CORS_ALLOW_HEADERS = [
+    'ngrok-skip-browser-warning',
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

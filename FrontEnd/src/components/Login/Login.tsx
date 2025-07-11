@@ -91,6 +91,7 @@ const LoginPopup = ({ onClose, onSwitchToRegister, onLoginSuccess }: LoginPopupP
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -114,7 +115,7 @@ const LoginPopup = ({ onClose, onSwitchToRegister, onLoginSuccess }: LoginPopupP
         setIsLoading(true);
 
         try {
-            const response = await axios.post<any>('http://localhost:8000/api/accounts/login/', {
+            const response = await axios.post<any>(`${apiUrl}/accounts/login/`, {
                 email,
                 password,
             });

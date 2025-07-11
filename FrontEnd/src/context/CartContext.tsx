@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 import axios from 'axios';
 import { useCartFetchFromAPI, CartItem } from '@/hooks/useCartFetchFromAPI';
 
@@ -15,6 +15,8 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { items, setItems, loading } = useCartFetchFromAPI();
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
   console.log("🛡️ Token đang dùng:", token);
 
   const addToCart = async (newItem: CartItem) => {
@@ -22,7 +24,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const res = await axios.post<CartItem>(
-        "http://localhost:8000/api/cart/",
+        `${apiUrl}/cart/`,
         {
           product: newItem.product_id,
           name: newItem.name,
@@ -37,7 +39,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         }
       );
 
-      // ✅ Cập nhật danh sách item sau khi thêm
       setItems((prev) => [...prev, res.data]);
     } catch (err) {
       console.error("❌ Add to cart failed:", err);
@@ -56,7 +57,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       const res = await axios.put<CartItem>(
-        `http://localhost:8000/api/cart/${id}/`,
+        `${apiUrl}/cart/${id}/`,
         { quantity: newQty },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -77,7 +78,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (!token) return;
 
     try {
-      await axios.delete(`http://localhost:8000/api/cart/${id}/`, {
+      await axios.delete(`${apiUrl}/cart/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
